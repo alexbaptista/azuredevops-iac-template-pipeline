@@ -8,7 +8,7 @@ on:
 
 env:
   DOCKER_REPOSITORY: iac_azuredevops
-  DOCKERFILE_PATH: container-image/Dockerfile
+  DOCKERFILE_PATH: ./container-image/Dockerfile
 
 jobs:
   build-and-deploy:
