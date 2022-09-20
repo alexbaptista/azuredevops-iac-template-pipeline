@@ -1,0 +1,9 @@
+parameters:
+  - name: terraformPath
+    type: string
+    default: false
+
+steps:
+  - script: terraform fmt --recursive
+    displayName: "Run Terraform format"
+    workingDirectory: ${{ parameters.terraformPath }}

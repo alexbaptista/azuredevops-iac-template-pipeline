@@ -1,0 +1,17 @@
+parameters:
+  - name: terraformPlanFile
+    type: string
+    default: false
+  - name: terraformPath
+    type: string
+    default: false
+
+steps:
+  - script: |
+      terraform apply \
+       -input=false \
+       "$TF_PLAN_FILE"
+    displayName: "Run Terraform apply"
+    env:
+      TF_PLAN_FILE: ${{ parameters.terraformPlanFile }}
+    workingDirectory: ${{ parameters.terraformPath }}

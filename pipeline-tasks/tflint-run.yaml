@@ -1,0 +1,11 @@
+parameters:
+  - name: terraformPath
+    type: string
+    default: false
+
+steps:
+  - script: tflint --init && tflint
+    env:
+      TFLINT_LOG: debug
+    displayName: "Run Terraform lint (tflint)"
+    workingDirectory: ${{ parameters.terraformPath }}

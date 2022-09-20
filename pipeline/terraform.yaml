@@ -1,0 +1,64 @@
+parameters:
+  - name: terraformVersion
+    type: string
+    default: false
+  - name: terraformPath
+    type: string
+    default: false
+  - name: resourceContainer
+    type: string
+    default: false
+  - name: envConfig
+    type: object
+    default: false
+  - name: terraformConfig
+    type: object
+    default:
+      DEV:
+        terraformWorkspaceEnv: DEV
+        terraformPlanFile: terraform.dev.tfplan
+      QA:
+        terraformWorkspaceEnv: QA
+        terraformPlanFile: terraform.qa.tfplan
+      UAT:
+        terraformWorkspaceEnv: UAT
+        terraformPlanFile: terraform.uat.tfplan
+      PRD:
+        terraformWorkspaceEnv: PRD
+        terraformPlanFile: terraform.prd.tfplan
+
+stages:
+  - stage: ci
+    displayName: "Continuous Integration"
+    condition: ${{ eq(variables['Build.SourceBranch'], parameters.envConfig['DEV'].gitBranch) }}
+    jobs:
+      - template: "../pipeline-jobs/terraform-ci.yaml"
+        parameters:
+          terraformPlanFile: ${{ parameters.terraformConfig['DEV'].terraformPlanFile }}
+          terraformWorkspaceEnv: ${{ parameters.terraformConfig['DEV'].terraformWorkspaceEnv }}
+          terraformVersion: ${{ parameters.terraformVersion }}
+          terraformPath: ${{ parameters.terraformPath }}
+          environmentDeploy: ${{ parameters.envConfig['DEV'].environmentDeploy }}
+          resourceContainer: ${{ parameters.resourceContainer }}
+  # - stage: pr
+  #   displayName: "Pull Request"
+  #   variables:
+  # - name: envTarget
+  #   ${{ if eq(variables['Build.SourceBranch'], parameters.envConfig['DEV'].gitBranch) }}:
+  #     value: "DEV"
+  #   ${{ if eq(variables['Build.SourceBranch'], parameters.envConfig['QA'].gitBranch) }}:
+  #     value: "QA"
+  #   ${{ if eq(variables['Build.SourceBranch'], parameters.envConfig['UAT'].gitBranch) }}:
+  #     value: "UAT"
+  #   ${{ if eq(variables['Build.SourceBranch'], parameters.envConfig['PRD'].gitBranch) }}:
+  #     value: "PRD"
+  #   jobs:
+  #     - ${{ if eq(variables['Build.SourceBranch'], parameters.envConfig['DEV'].gitBranch) }}:
+  #         - template: "../pipeline-jobs/terraform-pr.yaml"
+  #           parameters:
+  #             terraformPlanFile: ${{ variables.envConfig[variables.envTarget].terraformPlanFile }}
+  #             terraformWorkspaceEnv: ${{ variables.envConfig[variables.envTarget].terraformWorkspaceEnv }}
+  #             terraformVersion: ${{ parameters.terraformVersion }}
+  #             terraformPath: ${{ parameters.terraformPath }}
+  #             resourceContainer: ${{ parameters.resourceContainer }}
+#

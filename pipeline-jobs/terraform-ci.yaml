@@ -1,0 +1,77 @@
+parameters:
+  - name: terraformWorkspaceEnv
+    type: string
+    default: false
+  - name: terraformVersion
+    type: string
+    default: false
+  - name: terraformPath
+    type: string
+    default: false
+  - name: terraformPlanFile
+    type: string
+    default: false
+  - name: resourceContainer
+    type: string
+    default: false
+  - name: environmentDeploy
+    type: string
+    default: false
+
+jobs:
+  - job: "TerraformCI"
+    displayName: "Terraform CI"
+    container: ${{ parameters.resourceContainer }}
+    steps:
+      - template: ../pipeline-tasks/tfenv-terraform-install.yaml
+        parameters:
+          terraformVersion: ${{ parameters.terraformVersion }}
+      - template: ../pipeline-tasks/terraform-fmt.yaml
+        parameters:
+          terraformPath: ${{ parameters.terraformPath }}
+      - template: ../pipeline-tasks/terraform-init.yaml
+        parameters:
+          terraformPath: ${{ parameters.terraformPath }}
+      - template: ../pipeline-tasks/terraform-workspace.yaml
+        parameters:
+          terraformPath: ${{ parameters.terraformPath }}
+          terraformWorkspaceEnv: ${{ parameters.terraformWorkspaceEnv }}
+      - template: ../pipeline-tasks/terraform-validate.yaml
+        parameters:
+          terraformPath: ${{ parameters.terraformPath }}
+      - template: ../pipeline-tasks/tflint-run.yaml
+        parameters:
+          terraformPath: ${{ parameters.terraformPath }}
+      - template: ../pipeline-tasks/tfsec-run.yaml
+        parameters:
+          terraformPath: ${{ parameters.terraformPath }}
+      - template: ../pipeline-tasks/terraform-plan.yaml
+        parameters:
+          terraformPath: ${{ parameters.terraformPath }}
+          terraformPlanFile: ${{ parameters.terraformPlanFile }}
+      - template: ../pipeline-tasks/terraform-cache.yaml
+        parameters:
+          terraformPath: ${{ parameters.terraformPath }}
+          terraformPlanFile: ${{ parameters.terraformPlanFile }}
+  - deployment: "TerraformDeployCI"
+    displayName: "Terraform Deploy CI"
+    container: ${{ parameters.resourceContainer }}
+    dependsOn: "TerraformCI"
+    environment: ${{ parameters.environmentDeploy }}
+    timeoutInMinutes: 10
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - checkout: none
+            - template: ../pipeline-tasks/tfenv-terraform-install.yaml
+              parameters:
+                terraformVersion: ${{ parameters.terraformVersion }}
+            - template: ../pipeline-tasks/terraform-cache.yaml
+              parameters:
+                terraformPath: ${{ parameters.terraformPath }}
+                terraformPlanFile: ${{ parameters.terraformPlanFile }}
+            - template: ../pipeline-tasks/terraform-apply.yaml
+              parameters:
+                terraformPath: ${{ parameters.terraformPath }}
+                terraformPlanFile: ${{ parameters.terraformPlanFile }}

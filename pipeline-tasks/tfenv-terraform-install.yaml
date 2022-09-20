@@ -1,0 +1,11 @@
+parameters:
+  - name: terraformVersion
+    type: string
+    default: false
+
+steps:
+  - script: sudo tfenv install $TF_VERSION && sudo tfenv use $TF_VERSION
+    displayName: "Run Terraform setup (tfenv)"
+    env:
+      TF_VERSION: ${{ parameters.terraformVersion }}
+      TFENV_DEBUG: 3

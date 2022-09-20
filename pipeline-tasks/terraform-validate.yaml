@@ -1,0 +1,9 @@
+parameters:
+  - name: terraformPath
+    type: string
+    default: false
+
+steps:
+  - script: terraform validate
+    displayName: "Run Terraform validate"
+    workingDirectory: ${{ parameters.terraformPath }}

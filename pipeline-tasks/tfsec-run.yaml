@@ -1,0 +1,9 @@
+parameters:
+  - name: terraformPath
+    type: string
+    default: false
+
+steps:
+  - script: tfsec .
+    displayName: "Run Terraform SAST (tfsec)"
+    workingDirectory: ${{ parameters.terraformPath }}

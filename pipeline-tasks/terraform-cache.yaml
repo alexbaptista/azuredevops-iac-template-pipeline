@@ -1,0 +1,14 @@
+parameters:
+  - name: terraformPath
+    type: string
+    default: false
+  - name: terraformPlanFile
+    type: string
+    default: false
+
+steps:
+  - task: Cache@2
+    inputs:
+      key: '"terraformPlanFile" | "$(Agent.OS)" | "$(Build.BuildNumber)" | "$(Build.SourceVersion)"'
+      path: ${{ parameters.terraformPath }}
+    displayName: "Cache Terraform Plan File"

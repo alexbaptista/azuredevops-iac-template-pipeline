@@ -1,0 +1,16 @@
+parameters:
+  - name: terraformWorkspaceEnv
+    type: string
+    default: false
+  - name: terraformPath
+    type: string
+    default: false
+
+steps:
+  - script: |
+      terraform workspace select $TF_WORKSPACE_ENV || \
+      terraform workspace new $TF_WORKSPACE_ENV
+    displayName: "Run Terraform workspace (select or create)"
+    env:
+      TF_WORKSPACE_ENV: ${{ parameters.terraformWorkspaceEnv }}
+    workingDirectory: ${{ parameters.terraformPath }}
