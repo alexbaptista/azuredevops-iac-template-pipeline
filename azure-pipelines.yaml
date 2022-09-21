@@ -13,7 +13,8 @@ variables:
   - group: azuredevops-iac-template-pipeline
 
 pool:
-  name: 'hosted-azure'
+  name: Default
+  vmImage: hosted-azure
 
 resources:
   repositories:
