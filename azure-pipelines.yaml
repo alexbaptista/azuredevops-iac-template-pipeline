@@ -13,7 +13,7 @@ variables:
   - group: azuredevops-iac-template-pipeline
 
 pool:
-  name: Default
+  name: Azure Pipelines
 
 resources:
   repositories:
