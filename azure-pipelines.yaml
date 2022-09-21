@@ -13,7 +13,7 @@ variables:
   - group: azuredevops-iac-template-pipeline
 
 pool:
-  vmImage: ubuntu-20.04
+  name: Default
 
 resources:
   repositories:
