@@ -20,7 +20,7 @@ parameters:
 
 jobs:
   - job: "TerraformTestsAndBuild"
-    displayName: "Terraform Tests & Build ( ${{ paramaters.terraformWorkspaceEnv }} )"
+    displayName: "Terraform Tests & Build ( ${{ parameters.terraformWorkspaceEnv }} )"
     container: ${{ parameters.resourceContainer }}
     steps:
       - template: ../pipeline-tasks/tfenv-terraform-install.yaml
@@ -54,7 +54,7 @@ jobs:
           terraformPath: ${{ parameters.terraformPath }}
           terraformPlanFile: ${{ parameters.terraformPlanFile }}
   - deployment: "TerraformDeploy"
-    displayName: "Terraform Deploy ( ${{ paramaters.terraformWorkspaceEnv }} )"
+    displayName: "Terraform Deploy ( ${{ parameters.terraformWorkspaceEnv }} )"
     container: ${{ parameters.resourceContainer }}
     dependsOn: "TerraformTestsAndBuild"
     environment: ${{ parameters.environmentDeploy }}
