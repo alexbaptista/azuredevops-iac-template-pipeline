@@ -1,0 +1,52 @@
+parameters:
+  - name: terraformWorkspaceEnv
+    type: string
+    default: false
+  - name: terraformVersion
+    type: string
+    default: false
+  - name: terraformPath
+    type: string
+    default: false
+  - name: terraformPlanFile
+    type: string
+    default: false
+  - name: resourceContainer
+    type: string
+    default: false
+  - name: environmentDeploy
+    type: string
+    default: false
+
+jobs:
+  - deployment: "TerraformDeploy"
+    displayName: "Terraform Deploy ( ${{ paramaters.terraformWorkspaceEnv }} )"
+    container: ${{ parameters.resourceContainer }}
+    dependsOn: "TerraformTestsAndBuild"
+    environment: ${{ parameters.environmentDeploy }}
+    timeoutInMinutes: 10
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - template: ../pipeline-tasks/tfenv-terraform-install.yaml
+              parameters:
+                terraformVersion: ${{ parameters.terraformVersion }}
+            - template: ../pipeline-tasks/terraform-init.yaml
+              parameters:
+                terraformPath: ${{ parameters.terraformPath }}
+            - template: ../pipeline-tasks/terraform-workspace.yaml
+              parameters:
+                terraformPath: ${{ parameters.terraformPath }}
+                terraformWorkspaceEnv: ${{ parameters.terraformWorkspaceEnv }}
+            - template: ../pipeline-tasks/terraform-validate.yaml
+              parameters:
+                terraformPath: ${{ parameters.terraformPath }}
+            - template: ../pipeline-tasks/terraform-plan.yaml
+              parameters:
+                terraformPath: ${{ parameters.terraformPath }}
+                terraformPlanFile: ${{ parameters.terraformPlanFile }}
+            - template: ../pipeline-tasks/terraform-apply.yaml
+              parameters:
+                terraformPath: ${{ parameters.terraformPath }}
+                terraformPlanFile: ${{ parameters.terraformPlanFile }}

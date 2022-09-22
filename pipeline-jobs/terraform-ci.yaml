@@ -19,8 +19,8 @@ parameters:
     default: false
 
 jobs:
-  - job: "TerraformCI"
-    displayName: "Terraform CI"
+  - job: "TerraformTestsAndBuild"
+    displayName: "Terraform Tests & Build ( ${{ paramaters.terraformWorkspaceEnv }} )"
     container: ${{ parameters.resourceContainer }}
     steps:
       - template: ../pipeline-tasks/tfenv-terraform-install.yaml
@@ -53,10 +53,10 @@ jobs:
         parameters:
           terraformPath: ${{ parameters.terraformPath }}
           terraformPlanFile: ${{ parameters.terraformPlanFile }}
-  - deployment: "TerraformDeployCI"
-    displayName: "Terraform Deploy CI"
+  - deployment: "TerraformDeploy"
+    displayName: "Terraform Deploy ( ${{ paramaters.terraformWorkspaceEnv }} )"
     container: ${{ parameters.resourceContainer }}
-    dependsOn: "TerraformCI"
+    dependsOn: "TerraformTestsAndBuild"
     environment: ${{ parameters.environmentDeploy }}
     timeoutInMinutes: 10
     strategy:

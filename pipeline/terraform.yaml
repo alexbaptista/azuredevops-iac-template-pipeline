@@ -28,7 +28,7 @@ parameters:
         terraformPlanFile: terraform.prd.tfplan
 
 stages:
-  - stage: ci
+  - stage: DEV
     displayName: "Continuous Integration"
     condition: ${{ eq(variables['Build.SourceBranch'], parameters.envConfig['DEV'].gitBranch) }}
     jobs:
@@ -40,6 +40,31 @@ stages:
           terraformPath: ${{ parameters.terraformPath }}
           environmentDeploy: ${{ parameters.envConfig['DEV'].environmentDeploy }}
           resourceContainer: ${{ parameters.resourceContainer }}
+  - stage: QA
+    displayName: "Continuous Deployment"
+    condition: ${{ eq(variables['Build.SourceBranch'], parameters.envConfig['QA'].gitBranch) }}
+    jobs:
+      - template: "../pipeline-jobs/terraform-cd.yaml"
+        parameters:
+          terraformPlanFile: ${{ parameters.terraformConfig['QA'].terraformPlanFile }}
+          terraformWorkspaceEnv: ${{ parameters.terraformConfig['QA'].terraformWorkspaceEnv }}
+          terraformVersion: ${{ parameters.terraformVersion }}
+          terraformPath: ${{ parameters.terraformPath }}
+          environmentDeploy: ${{ parameters.envConfig['QA'].environmentDeploy }}
+          resourceContainer: ${{ parameters.resourceContainer }}
+  - stage: UAT
+    displayName: "Continuous Deployment"
+    condition: ${{ eq(variables['Build.SourceBranch'], parameters.envConfig['UAT'].gitBranch) }}
+    jobs:
+      - template: "../pipeline-jobs/terraform-cd.yaml"
+        parameters:
+          terraformPlanFile: ${{ parameters.terraformConfig['UAT'].terraformPlanFile }}
+          terraformWorkspaceEnv: ${{ parameters.terraformConfig['UAT'].terraformWorkspaceEnv }}
+          terraformVersion: ${{ parameters.terraformVersion }}
+          terraformPath: ${{ parameters.terraformPath }}
+          environmentDeploy: ${{ parameters.envConfig['UAT'].environmentDeploy }}
+          resourceContainer: ${{ parameters.resourceContainer }}
+
   # - stage: pr
   #   displayName: "Pull Request"
   #   variables:

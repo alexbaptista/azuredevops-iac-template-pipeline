@@ -2,11 +2,17 @@ name: $(Date:yyyyMMdd)$(Rev:.r)
 trigger:
   branches:
     include:
+      - dev
+      - qa
+      - uat
       - main
 
 pr:
   branches:
     include:
+      - dev
+      - qa
+      - uat
       - main
 
 variables:
@@ -47,13 +53,13 @@ stages:
       envConfig:
         DEV:
           environmentDeploy: $(environmentDeployDEV)
-          gitBranch: refs/heads/main
+          gitBranch: refs/heads/dev
         QA:
           environmentDeploy: $(environmentDeployQA)
-          gitBranch: refs/heads/main
+          gitBranch: refs/heads/qa
         UAT:
           environmentDeploy: $(environmentDeployUAT)
-          gitBranch: refs/tags/*
+          gitBranch: refs/heads/uat
         PRD:
           environmentDeploy: $(environmentDeployPRD)
-          gitBranch: refs/tags/*
+          gitBranch: refs/heads/main
