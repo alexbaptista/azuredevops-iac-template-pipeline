@@ -28,8 +28,8 @@ parameters:
     default: false
 
 jobs:
-  - job: "TerraformPR"
-    displayName: "Terraform PR"
+  - job: "TerraformPullRequest"
+    displayName: "Terraform Pull Request to ( ${{ parameters.terraformWorkspaceEnv }} )"
     container: ${{ parameters.resourceContainer }}
     steps:
       - template: ../pipeline-tasks/tfenv-terraform-install.yaml
@@ -58,10 +58,6 @@ jobs:
         parameters:
           terraformPath: ${{ parameters.terraformPath }}
           terraformPlanFile: ${{ parameters.terraformPlanFile }}
-      # - template: ../pipeline-tasks/terraform-cache.yaml
-      #   parameters:
-      #     terraformPath: ${{ parameters.terraformPath }}
-      #     terraformPlanFile: ${{ parameters.terraformPlanFile }}
       - template: ../pipeline-tasks/github-pr-comment.yaml
         parameters:
           githubConnection: ${{ parameters.githubConnection }}
