@@ -2,18 +2,15 @@ name: $(Date:yyyyMMdd)$(Rev:.r)
 trigger:
   branches:
     include:
-      - dev
-      - qa
-      - uat
-      - main
+      - refs/heads/dev
+      - refs/heads/qa
+      - refs/heads/uat
+      - refs/heads/main
 
 pr:
   branches:
     include:
-      - dev
-      - qa
-      - uat
-      - main
+      - refs/pull/*/merge
 
 variables:
   - group: azuredevops-iac-template-pipeline
