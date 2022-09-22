@@ -6,11 +6,13 @@ trigger:
       - refs/heads/qa
       - refs/heads/uat
       - refs/heads/main
+    exclude:
+      - refs/pull/**/merge
 
 pr:
   branches:
     include:
-      - refs/pull/*/merge
+      - refs/pull/**/merge
 
 variables:
   - group: azuredevops-iac-template-pipeline
