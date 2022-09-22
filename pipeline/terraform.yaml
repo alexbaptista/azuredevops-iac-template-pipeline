@@ -97,5 +97,5 @@ stages:
           terraformVersion: ${{ parameters.terraformVersion }}
           terraformPath: ${{ parameters.terraformPath }}
           resourceContainer: ${{ parameters.resourceContainer }}
-          githubConnection: ${{ parameters.envConfig['PR'].githubConnection}}
-          githubPullRequestId: ${{ parameters.envConfig['PR'].githubPullRequestId}}
+          githubConnection: ${{ parameters.envConfig['PR'].githubConnection }}
+          githubPullRequestNumber: ${{ parameters.envConfig['PR'].githubPullRequestNumber }}

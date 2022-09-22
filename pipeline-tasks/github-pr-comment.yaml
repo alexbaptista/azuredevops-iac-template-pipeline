@@ -5,7 +5,7 @@ parameters:
   - name: gitubRepositoryName
     type: string
     default: false
-  - name: githubPullRequestId
+  - name: githubPullRequestNumber
     type: string
     default: false
   - name: githubPullRequestComment
@@ -17,5 +17,5 @@ steps:
     inputs:
       gitHubConnection: ${{ parameters.githubConnection }}
       repositoryName: ${{ parameters.gitubRepositoryName }}
-      id: ${{ parameters.githubPullRequestId }}
+      id: ${{ parameters.githubPullRequestNumber }}
       comment: ${{ parameters.githubPullRequestComment }}

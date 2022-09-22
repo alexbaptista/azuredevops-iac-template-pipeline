@@ -20,9 +20,9 @@ parameters:
   - name: gitubRepositoryName
     type: string
     default: $(Build.Repository.Name)
-  - name: githubPullRequestId
-    type: number
-    default: 0
+  - name: githubPullRequestNumber
+    type: string
+    default: false
   - name: githubPullRequestComment
     type: string
     default: "Testing write"
@@ -62,5 +62,5 @@ jobs:
         parameters:
           githubConnection: ${{ parameters.githubConnection }}
           gitubRepositoryName: ${{ parameters.gitubRepositoryName }}
-          githubPullRequestId: ${{ parameters.githubPullRequestId }}
+          githubPullRequestNumber: ${{ parameters.githubPullRequestNumber }}
           githubPullRequestComment: ${{ parameters.githubPullRequestComment }}
