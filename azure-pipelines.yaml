@@ -20,6 +20,10 @@ pr:
 
 variables:
   - group: azuredevops-iac-template-pipeline
+  - name: ghprnumber
+    value: $(System.PullRequest.PullRequestNumber)
+  - name: ghprtargetbranch
+    value: $(System.PullRequest.TargetBranch)
 
 pool:
   name: Default
@@ -68,5 +72,5 @@ stages:
           gitBranch: refs/heads/main
         PR:
           githubConnection: $(githubConnection)
-          githubPullRequestNumber: $(System.PullRequest.PullRequestNumber)
-          githubPRTargetBranch: $(System.PullRequest.TargetBranch)
+          githubPullRequestNumber: variables.ghprnumber
+          githubPRTargetBranch: variables.ghprtargetbranch
