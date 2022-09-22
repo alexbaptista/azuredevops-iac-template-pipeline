@@ -30,7 +30,7 @@ parameters:
 stages:
   - stage: DEV
     displayName: "Continuous Integration (DEV)"
-    condition: and(ne(variables['Build.Reason'], 'PullRequest'), eq(variables['Build.SourceBranch'], parameters.envConfig['DEV'].gitBranch))
+    condition: ${{ and(eq(parameters.envConfig['PR'].githubPRTargetBranch, ''), eq(variables['Build.SourceBranch'], parameters.envConfig['DEV'].gitBranch)) }}
     jobs:
       - template: "../pipeline-jobs/terraform-ci.yaml"
         parameters:
@@ -42,7 +42,7 @@ stages:
           resourceContainer: ${{ parameters.resourceContainer }}
   - stage: QA
     displayName: "Continuous Delivery (QA)"
-    condition: ${{ and( ne(variables['Build.Reason'], 'PullRequest'), eq(variables['Build.SourceBranch'], parameters.envConfig['QA'].gitBranch)) }}
+    condition: ${{ and(eq(parameters.envConfig['PR'].githubPRTargetBranch, ''), eq(variables['Build.SourceBranch'], parameters.envConfig['QA'].gitBranch)) }}
     jobs:
       - template: "../pipeline-jobs/terraform-cd.yaml"
         parameters:
@@ -54,7 +54,7 @@ stages:
           resourceContainer: ${{ parameters.resourceContainer }}
   - stage: UAT
     displayName: "Continuous Delivery (UAT)"
-    condition: ${{ and( ne(variables['Build.Reason'], 'PullRequest'), eq(variables['Build.SourceBranch'], parameters.envConfig['UAT'].gitBranch)) }}
+    condition: ${{ and(eq(parameters.envConfig['PR'].githubPRTargetBranch, ''), eq(variables['Build.SourceBranch'], parameters.envConfig['UAT'].gitBranch)) }}
     jobs:
       - template: "../pipeline-jobs/terraform-cd.yaml"
         parameters:
@@ -66,7 +66,7 @@ stages:
           resourceContainer: ${{ parameters.resourceContainer }}
   - stage: PRD
     displayName: "Continuous Delivery (PRD)"
-    condition: ${{ and( ne(variables['Build.Reason'], 'PullRequest'), eq(variables['Build.SourceBranch'], parameters.envConfig['PRD'].gitBranch)) }}
+    condition: ${{ and(eq(parameters.envConfig['PR'].githubPRTargetBranch, ''), eq(variables['Build.SourceBranch'], parameters.envConfig['PRD'].gitBranch)) }}
     jobs:
       - template: "../pipeline-jobs/terraform-cd.yaml"
         parameters:
