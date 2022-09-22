@@ -28,8 +28,7 @@ parameters:
         terraformPlanFile: terraform.prd.tfplan
 
 stages:
-- ${{ if ne(variables['Build.Reason'], 'PullRequest') }}:
-# - ${{ if eq(variables['Build.SourceBranch'], parameters.envConfig['DEV'].gitBranch) }}:
+- ${{ if eq(variables['Build.Reason'], 'ResourceTrigger') }}:
   - stage: DEV
     displayName: "Continuous Integration (DEV)"
     condition: ${{ eq(variables['Build.SourceBranch'], parameters.envConfig['DEV'].gitBranch) }}
@@ -42,7 +41,6 @@ stages:
           terraformPath: ${{ parameters.terraformPath }}
           environmentDeploy: ${{ parameters.envConfig['DEV'].environmentDeploy }}
           resourceContainer: ${{ parameters.resourceContainer }}
-# - ${{ elseif eq(variables['Build.SourceBranch'], parameters.envConfig['QA'].gitBranch) }}:
   - stage: QA
     displayName: "Continuous Delivery (QA)"
     condition: ${{ eq(variables['Build.SourceBranch'], parameters.envConfig['QA'].gitBranch) }}
@@ -55,7 +53,6 @@ stages:
           terraformPath: ${{ parameters.terraformPath }}
           environmentDeploy: ${{ parameters.envConfig['QA'].environmentDeploy }}
           resourceContainer: ${{ parameters.resourceContainer }}
-# - ${{ elseif eq(variables['Build.SourceBranch'], parameters.envConfig['UAT'].gitBranch) }}:
   - stage: UAT
     displayName: "Continuous Delivery (UAT)"
     condition: ${{ eq(variables['Build.SourceBranch'], parameters.envConfig['UAT'].gitBranch) }}
@@ -68,7 +65,6 @@ stages:
           terraformPath: ${{ parameters.terraformPath }}
           environmentDeploy: ${{ parameters.envConfig['UAT'].environmentDeploy }}
           resourceContainer: ${{ parameters.resourceContainer }}
-# - ${{ elseif eq(variables['Build.SourceBranch'], parameters.envConfig['PRD'].gitBranch) }}:
   - stage: PRD
     displayName: "Continuous Delivery (PRD)"
     condition: ${{ eq(variables['Build.SourceBranch'], parameters.envConfig['PRD'].gitBranch) }}
@@ -84,7 +80,6 @@ stages:
 - ${{ elseif eq(variables['Build.Reason'], 'PullRequest') }}:
   - stage: PR
     displayName: "Pull Request"
-    # condition: ${{ eq(variables['Build.Reason'], 'PullRequest') }}
     variables:
       - name: envTarget
         ${{ if eq(parameters.envConfig['PR'].githubPRTargetBranch, parameters.envConfig['DEV'].gitBranch) }}:
