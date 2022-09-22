@@ -13,6 +13,10 @@ pr:
   branches:
     include:
       - refs/pull/**/merge
+      - refs/heads/dev
+      - refs/heads/qa
+      - refs/heads/uat
+      - refs/heads/main
 
 variables:
   - group: azuredevops-iac-template-pipeline
