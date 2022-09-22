@@ -22,7 +22,6 @@ jobs:
   - deployment: "TerraformDeploy"
     displayName: "Terraform Deploy ( ${{ parameters.terraformWorkspaceEnv }} )"
     container: ${{ parameters.resourceContainer }}
-    dependsOn: "TerraformTestsAndBuild"
     environment: ${{ parameters.environmentDeploy }}
     timeoutInMinutes: 10
     strategy:
