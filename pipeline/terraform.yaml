@@ -76,24 +76,25 @@ stages:
           terraformPath: ${{ parameters.terraformPath }}
           environmentDeploy: ${{ parameters.envConfig['PRD'].environmentDeploy }}
           resourceContainer: ${{ parameters.resourceContainer }}
-    - stage: PR
-      displayName: "Pull Request"
-      condition: ${{ eq(variables['Build.Reason'], 'PullRequest') }}
-      variables:
-        - name: envTarget
-          ${{ if eq(variables['Build.SourceBranch'], parameters.envConfig['DEV'].gitBranch) }}:
-            value: "DEV"
-          ${{ if eq(variables['Build.SourceBranch'], parameters.envConfig['QA'].gitBranch) }}:
-            value: "QA"
-          ${{ if eq(variables['Build.SourceBranch'], parameters.envConfig['UAT'].gitBranch) }}:
-            value: "UAT"
-          ${{ if eq(variables['Build.SourceBranch'], parameters.envConfig['PRD'].gitBranch) }}:
-            value: "PRD"
-      jobs:
-        - template: "../pipeline-jobs/terraform-pr.yaml"
-          parameters:
-            terraformPlanFile: ${{ variables.envConfig[variables.envTarget].terraformPlanFile }}
-            terraformWorkspaceEnv: ${{ variables.envConfig[variables.envTarget].terraformWorkspaceEnv }}
-            terraformVersion: ${{ parameters.terraformVersion }}
-            terraformPath: ${{ parameters.terraformPath }}
-            resourceContainer: ${{ parameters.resourceContainer }}
+  - stage: PR
+    displayName: "Pull Request"
+    condition: ${{ eq(variables['Build.Reason'], 'PullRequest') }}
+    variables:
+      - name: envTarget
+        ${{ if eq(variables['System.PullRequest.TargetBranch'], parameters.envConfig['DEV'].gitBranch) }}:
+          value: "DEV"
+        ${{ if eq(variables['System.PullRequest.TargetBranch'], parameters.envConfig['QA'].gitBranch) }}:
+          value: "QA"
+        ${{ if eq(variables['System.PullRequest.TargetBranch'], parameters.envConfig['UAT'].gitBranch) }}:
+          value: "UAT"
+        ${{ if eq(variables['System.PullRequest.TargetBranch'], parameters.envConfig['PRD'].gitBranch) }}:
+          value: "PRD"
+    jobs:
+      - template: "../pipeline-jobs/terraform-pr.yaml"
+        parameters:
+          terraformPlanFile: ${{ parameters.envConfig[variables.envTarget].terraformPlanFile }}
+          terraformWorkspaceEnv: ${{ parameters.envConfig[variables.envTarget].terraformWorkspaceEnv }}
+          terraformVersion: ${{ parameters.terraformVersion }}
+          terraformPath: ${{ parameters.terraformPath }}
+          resourceContainer: ${{ parameters.resourceContainer }}
+          githubConnection: ${{ parameters.envConfig['PR']githubConnection}}

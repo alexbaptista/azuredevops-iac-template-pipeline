@@ -19,13 +19,13 @@ parameters:
     default: false
   - name: gitubRepositoryName
     type: string
-    default: false
+    default: $(Build.Repository.Name)
   - name: githubPullRequestId
     type: number
-    default: 0
+    default: $(System.PullRequest.PullRequestId)
   - name: githubPullRequestComment
     type: string
-    default: false
+    default: "Testing write"
 
 jobs:
   - job: "TerraformPullRequest"
