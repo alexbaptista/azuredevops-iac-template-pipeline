@@ -6,7 +6,7 @@ parameters:
     type: string
     default: false
   - name: githubPullRequestId
-    type: number
+    type: string
     default: false
   - name: githubPullRequestComment
     type: string
