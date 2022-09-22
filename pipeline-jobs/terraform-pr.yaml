@@ -29,7 +29,7 @@ parameters:
 
 jobs:
   - job: "TerraformPullRequest"
-    displayName: "Terraform Pull Request to ( ${{ parameters.terraformWorkspaceEnv }} )"
+    displayName: "Terraform Pull Request"
     container: ${{ parameters.resourceContainer }}
     steps:
       - template: ../pipeline-tasks/tfenv-terraform-install.yaml

@@ -20,7 +20,7 @@ parameters:
 
 jobs:
   - deployment: "TerraformDeploy"
-    displayName: "Terraform Deploy ( ${{ parameters.terraformWorkspaceEnv }} )"
+    displayName: "Terraform Deploy"
     container: ${{ parameters.resourceContainer }}
     environment: ${{ parameters.environmentDeploy }}
     timeoutInMinutes: 10

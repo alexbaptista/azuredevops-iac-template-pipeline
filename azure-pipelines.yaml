@@ -8,6 +8,9 @@ trigger:
       - refs/heads/main
     exclude:
       - refs/pull/**/merge
+  paths:
+    exclude:
+    - README.md
 
 pr:
   branches:
@@ -17,6 +20,9 @@ pr:
       - refs/heads/qa
       - refs/heads/uat
       - refs/heads/main
+  paths:
+    exclude:
+    - README.md
 
 variables:
   - group: azuredevops-iac-template-pipeline
@@ -68,5 +74,5 @@ stages:
           gitBranch: refs/heads/main
         PR:
           githubConnection: $(githubConnection)
-          githubPullRequestNumber: 1 #$(System.PullRequest.PullRequestNumber)
-          githubPRTargetBranch: refs/heads/dev #$(System.PullRequest.TargetBranch)
+          githubPullRequestNumber: $(System.PullRequest.PullRequestNumber)
+          githubPRTargetBranch: $(System.PullRequest.TargetBranch)
