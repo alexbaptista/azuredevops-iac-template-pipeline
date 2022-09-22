@@ -21,8 +21,8 @@ parameters:
     type: string
     default: $(Build.Repository.Name)
   - name: githubPullRequestId
-    type: string
-    default: $(System.PullRequest.PullRequestId)
+    type: number
+    default: 0
   - name: githubPullRequestComment
     type: string
     default: "Testing write"

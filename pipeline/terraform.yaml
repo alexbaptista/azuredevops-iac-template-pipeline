@@ -81,13 +81,13 @@ stages:
     condition: ${{ eq(variables['Build.Reason'], 'PullRequest') }}
     variables:
       - name: envTarget
-        ${{ if eq(variables['System.PullRequest.TargetBranch'], parameters.envConfig['DEV'].gitBranch) }}:
+        ${{ if eq(parameters.envConfig['PR'].githubPRTargetBranch, parameters.envConfig['DEV'].gitBranch) }}:
           value: "DEV"
-        ${{ if eq(variables['System.PullRequest.TargetBranch'], parameters.envConfig['QA'].gitBranch) }}:
+        ${{ if eq(parameters.envConfig['PR'].githubPRTargetBranch, parameters.envConfig['QA'].gitBranch) }}:
           value: "QA"
-        ${{ if eq(variables['System.PullRequest.TargetBranch'], parameters.envConfig['UAT'].gitBranch) }}:
+        ${{ if eq(parameters.envConfig['PR'].githubPRTargetBranch, parameters.envConfig['UAT'].gitBranch) }}:
           value: "UAT"
-        ${{ if eq(variables['System.PullRequest.TargetBranch'], parameters.envConfig['PRD'].gitBranch) }}:
+        ${{ if eq(parameters.envConfig['PR'].githubPRTargetBranch, parameters.envConfig['PRD'].gitBranch) }}:
           value: "PRD"
     jobs:
       - template: "../pipeline-jobs/terraform-pr.yaml"
@@ -98,3 +98,4 @@ stages:
           terraformPath: ${{ parameters.terraformPath }}
           resourceContainer: ${{ parameters.resourceContainer }}
           githubConnection: ${{ parameters.envConfig['PR'].githubConnection}}
+          githubPullRequestId: ${{ parameters.envConfig['PR'].githubPullRequestId}}
