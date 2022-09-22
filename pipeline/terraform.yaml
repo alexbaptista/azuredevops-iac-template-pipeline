@@ -28,7 +28,7 @@ parameters:
         terraformPlanFile: terraform.prd.tfplan
 
 stages:
-- ${{ if eq(variables['Build.Reason'], 'ResourceTrigger') }}:
+- ${{ if ne(variables['Build.Reason'], 'PullRequest') }}:
   - stage: DEV
     displayName: "Continuous Integration (DEV)"
     condition: ${{ eq(variables['Build.SourceBranch'], parameters.envConfig['DEV'].gitBranch) }}
