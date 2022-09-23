@@ -34,43 +34,41 @@ steps:
   - bash: |
       if [ $(System.PullRequest.TargetBranch) = ${{ parameters.envConfig['DEV'].gitBranch }} ]; then
 
-        TF_PLAN_FILE=${{ parameters.terraformConfig['DEV'].terraformPlanFile }}
-        TF_WORKSPACE_ENV=${{ parameters.terraformConfig['DEV'].terraformWorkspaceEnv }}
+        # TF_PLAN_FILE=${{ parameters.terraformConfig['DEV'].terraformPlanFile }}
+        # TF_WORKSPACE_ENV=${{ parameters.terraformConfig['DEV'].terraformWorkspaceEnv }}
 
-        # echo "##vso[task.setvariable variable=TF_PLAN_FILE]${{ parameters.terraformConfig['DEV'].terraformPlanFile }}"
-        # echo "##vso[task.setvariable variable=TF_WORKSPACE_ENV]${{ parameters.terraformConfig['DEV'].terraformWorkspaceEnv }}"
+        echo "##vso[task.setvariable variable=TF_PLAN_FILE]${{ parameters.terraformConfig['DEV'].terraformPlanFile }}"
+        echo "##vso[task.setvariable variable=TF_WORKSPACE_ENV]${{ parameters.terraformConfig['DEV'].terraformWorkspaceEnv }}"
+        echo "DEV"
 
       elif [ $(System.PullRequest.TargetBranch) = ${{ parameters.envConfig['QA'].gitBranch }} ]; then
 
-        TF_PLAN_FILE=${{ parameters.terraformConfig['QA'].terraformPlanFile }}
-        TF_WORKSPACE_ENV=${{ parameters.terraformConfig['QA'].terraformWorkspaceEnv }}
+        # TF_PLAN_FILE=${{ parameters.terraformConfig['QA'].terraformPlanFile }}
+        # TF_WORKSPACE_ENV=${{ parameters.terraformConfig['QA'].terraformWorkspaceEnv }}
 
-        # echo "##vso[task.setvariable variable=TF_PLAN_FILE]${{ parameters.terraformConfig['QA'].terraformPlanFile }}"
-        # echo "##vso[task.setvariable variable=TF_WORKSPACE_ENV]${{ parameters.terraformConfig['QA'].terraformWorkspaceEnv }}"
+        echo "##vso[task.setvariable variable=TF_PLAN_FILE]${{ parameters.terraformConfig['QA'].terraformPlanFile }}"
+        echo "##vso[task.setvariable variable=TF_WORKSPACE_ENV]${{ parameters.terraformConfig['QA'].terraformWorkspaceEnv }}"
+        echo "DEV"
 
       elif [ $(System.PullRequest.TargetBranch) = ${{ parameters.envConfig['UAT'].gitBranch }} ]; then
 
-        TF_PLAN_FILE=${{ parameters.terraformConfig['UAT'].terraformPlanFile }}
-        TF_WORKSPACE_ENV=${{ parameters.terraformConfig['UAT'].terraformWorkspaceEnv }}
+        # TF_PLAN_FILE=${{ parameters.terraformConfig['UAT'].terraformPlanFile }}
+        # TF_WORKSPACE_ENV=${{ parameters.terraformConfig['UAT'].terraformWorkspaceEnv }}
 
-        # echo "##vso[task.setvariable variable=TF_PLAN_FILE]${{ parameters.terraformConfig['UAT'].terraformPlanFile }}"
-        # echo "##vso[task.setvariable variable=TF_WORKSPACE_ENV]${{ parameters.terraformConfig['UAT'].terraformWorkspaceEnv }}"
+        echo "##vso[task.setvariable variable=TF_PLAN_FILE]${{ parameters.terraformConfig['UAT'].terraformPlanFile }}"
+        echo "##vso[task.setvariable variable=TF_WORKSPACE_ENV]${{ parameters.terraformConfig['UAT'].terraformWorkspaceEnv }}"
+        echo "DEV"
 
       elif [ $(System.PullRequest.TargetBranch) = ${{ parameters.envConfig['PRD'].gitBranch }} ]; then
 
-        TF_PLAN_FILE=${{ parameters.terraformConfig['PRD'].terraformPlanFile }}
-        TF_WORKSPACE_ENV=${{ parameters.terraformConfig['PRD'].terraformWorkspaceEnv }}
+        # TF_PLAN_FILE=${{ parameters.terraformConfig['PRD'].terraformPlanFile }}
+        # TF_WORKSPACE_ENV=${{ parameters.terraformConfig['PRD'].terraformWorkspaceEnv }}
 
-        # echo "##vso[task.setvariable variable=TF_PLAN_FILE]${{ parameters.terraformConfig['PRD'].terraformPlanFile }}"
-        # echo "##vso[task.setvariable variable=TF_WORKSPACE_ENV]${{ parameters.terraformConfig['PRD'].terraformWorkspaceEnv }}"
+        echo "##vso[task.setvariable variable=TF_PLAN_FILE]${{ parameters.terraformConfig['PRD'].terraformPlanFile }}"
+        echo "##vso[task.setvariable variable=TF_WORKSPACE_ENV]${{ parameters.terraformConfig['PRD'].terraformWorkspaceEnv }}"
+        echo "DEV"
 
       fi
-
-      echo $(System.PullRequest.TargetBranch)
-      export TF_PLAN_FILE
-      export TF_WORKSPACE_ENV
-
-      env | grep TF_
     name: DefineVarsForPR
     displayName: "Define variables for PR"
 

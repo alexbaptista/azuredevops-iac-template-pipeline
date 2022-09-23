@@ -8,7 +8,9 @@ parameters:
 
 steps:
   - script: |
-      env | grep TF_
+      echo ${{ variables['TF_PLAN_FILE'] }}
+      echo ${{ variables['TF_WORKSPACE_ENV'] }}
+
       terraform workspace select $TF_WORKSPACE_ENV || \
       terraform workspace new $TF_WORKSPACE_ENV
     displayName: "Run Terraform workspace (select or create)"
