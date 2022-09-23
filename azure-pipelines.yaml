@@ -75,4 +75,4 @@ stages:
         PR:
           githubConnection: $(githubConnection)
           githubPullRequestNumber: $(System.PullRequest.PullRequestNumber)
-          githubPRTargetBranch: /refs/heads/main #$(System.PullRequest.TargetBranch)
+          githubPRTargetBranch: refs/heads/main #$(System.PullRequest.TargetBranch)
