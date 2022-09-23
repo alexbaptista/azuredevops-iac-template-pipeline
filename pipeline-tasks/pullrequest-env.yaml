@@ -32,7 +32,7 @@ steps:
   #       echo "##vso[task.setvariable variable=terraformWorkspaceEnvPR;isOutput=true]${{ parameters.terraformConfig['PRD'].terraformWorkspaceEnv }}"
   #     name: envConfigTargetPR 
   - bash: |
-      if [ $(System.PullRequest.TargetBranch) = ${{ parameters.envConfig['DEV'].gitBranch }} ]; then
+      if [[ $(System.PullRequest.TargetBranch) = *${{ parameters.envConfig['DEV'].gitBranch }}* ]]; then
 
         # TF_PLAN_FILE=${{ parameters.terraformConfig['DEV'].terraformPlanFile }}
         # TF_WORKSPACE_ENV=${{ parameters.terraformConfig['DEV'].terraformWorkspaceEnv }}
@@ -41,7 +41,7 @@ steps:
         echo "##vso[task.setvariable variable=TF_WORKSPACE_ENV]${{ parameters.terraformConfig['DEV'].terraformWorkspaceEnv }}"
         echo "DEV"
 
-      elif [ $(System.PullRequest.TargetBranch) = ${{ parameters.envConfig['QA'].gitBranch }} ]; then
+      elif [[ $(System.PullRequest.TargetBranch) = *${{ parameters.envConfig['QA'].gitBranch }}* ]]; then
 
         # TF_PLAN_FILE=${{ parameters.terraformConfig['QA'].terraformPlanFile }}
         # TF_WORKSPACE_ENV=${{ parameters.terraformConfig['QA'].terraformWorkspaceEnv }}
@@ -50,7 +50,7 @@ steps:
         echo "##vso[task.setvariable variable=TF_WORKSPACE_ENV]${{ parameters.terraformConfig['QA'].terraformWorkspaceEnv }}"
         echo "DEV"
 
-      elif [ $(System.PullRequest.TargetBranch) = ${{ parameters.envConfig['UAT'].gitBranch }} ]; then
+      elif [[ $(System.PullRequest.TargetBranch) = *${{ parameters.envConfig['UAT'].gitBranch }}* ]]; then
 
         # TF_PLAN_FILE=${{ parameters.terraformConfig['UAT'].terraformPlanFile }}
         # TF_WORKSPACE_ENV=${{ parameters.terraformConfig['UAT'].terraformWorkspaceEnv }}
@@ -59,7 +59,7 @@ steps:
         echo "##vso[task.setvariable variable=TF_WORKSPACE_ENV]${{ parameters.terraformConfig['UAT'].terraformWorkspaceEnv }}"
         echo "DEV"
 
-      elif [ $(System.PullRequest.TargetBranch) = ${{ parameters.envConfig['PRD'].gitBranch }} ]; then
+      elif [[ $(System.PullRequest.TargetBranch) = *${{ parameters.envConfig['PRD'].gitBranch }}* ]]; then
 
         # TF_PLAN_FILE=${{ parameters.terraformConfig['PRD'].terraformPlanFile }}
         # TF_WORKSPACE_ENV=${{ parameters.terraformConfig['PRD'].terraformWorkspaceEnv }}
