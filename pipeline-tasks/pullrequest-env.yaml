@@ -8,6 +8,7 @@ parameters:
 
 steps:
   - bash: echo "##vso[task.setvariable variable=SystemPullRequestTargetBranch;isOutput=true]$(System.PullRequest.TargetBranch)"
+    name: envPRExport
   - ${{ if eq(variables['System.PullRequest.TargetBranch'], parameters.envConfig['DEV'].gitBranch) }}:
     - bash: |
         echo "##vso[task.setvariable variable=terraformPlanFilePR;isOutput=true]${{ parameters.terraformConfig['DEV'].terraformPlanFile }}"
