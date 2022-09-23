@@ -42,7 +42,7 @@ jobs:
       - template: ../pipeline-tasks/terraform-workspace.yaml
         parameters:
           terraformPath: ${{ parameters.terraformPath }}
-          terraformWorkspaceEnv: $(terraformWorkspaceEnvPR)
+          # terraformWorkspaceEnv: $(terraformWorkspaceEnvPR)
       - template: ../pipeline-tasks/terraform-validate.yaml
         parameters:
           terraformPath: ${{ parameters.terraformPath }}
@@ -55,7 +55,7 @@ jobs:
       - template: ../pipeline-tasks/terraform-plan.yaml
         parameters:
           terraformPath: ${{ parameters.terraformPath }}
-          terraformPlanFile: $(terraformPlanFilePR)
+          # terraformPlanFile: $(terraformPlanFilePR)
       - template: ../pipeline-tasks/github-pullrequest-comment.yaml
         parameters:
           githubConnection: ${{ parameters.githubConnection }}
