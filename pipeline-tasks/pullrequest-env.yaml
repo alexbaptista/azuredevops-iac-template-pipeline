@@ -7,20 +7,24 @@ parameters:
   default: false
 
 steps:
-  - ${{ if eq(variable['System.PullRequest.TargetBranch']), parameters.envConfig['DEV'].gitBranch) }}:
+  - ${{ if eq(variable['System.PullRequest.TargetBranch'], parameters.envConfig['DEV'].gitBranch) }}:
     - bash: |
         echo "##vso[task.setvariable variable=terraformPlanFilePR;isOutput=true]${{ parameters.terraformConfig['DEV'].terraformPlanFile }}"
         echo "##vso[task.setvariable variable=terraformWorkspaceEnvPR;isOutput=true]${{ parameters.terraformConfig['DEV'].terraformWorkspaceEnv }}"
+      name: envConfigTargetPR
   - ${{ if eq(variable['System.PullRequest.TargetBranch'], parameters.envConfig['QA'].gitBranch) }}:
     - bash: |
         echo "##vso[task.setvariable variable=terraformPlanFilePR;isOutput=true]${{ parameters.terraformConfig['QA'].terraformPlanFile }}"
         echo "##vso[task.setvariable variable=terraformWorkspaceEnvPR;isOutput=true]${{ parameters.terraformConfig['QA'].terraformWorkspaceEnv }}"
+      name: envConfigTargetPR
   - ${{ if eq(variable['System.PullRequest.TargetBranch'], parameters.envConfig['UAT'].gitBranch) }}:
     - bash: |
         echo "##vso[task.setvariable variable=terraformPlanFilePR;isOutput=true]${{ parameters.terraformConfig['UAT'].terraformPlanFile }}"
         echo "##vso[task.setvariable variable=terraformWorkspaceEnvPR;isOutput=true]${{ parameters.terraformConfig['UAT'].terraformWorkspaceEnv }}"
+      name: envConfigTargetPR
   - ${{ if eq(variable['System.PullRequest.TargetBranch'], parameters.envConfig['PRD'].gitBranch) }}:
     - bash: |
         echo "##vso[task.setvariable variable=terraformPlanFilePR;isOutput=true]${{ parameters.terraformConfig['PRD'].terraformPlanFile }}"
         echo "##vso[task.setvariable variable=terraformWorkspaceEnvPR;isOutput=true]${{ parameters.terraformConfig['PRD'].terraformWorkspaceEnv }}"
-  - name: envConfigTargetPR
+      name: envConfigTargetPR
+      

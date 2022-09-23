@@ -2,9 +2,6 @@ parameters:
   - name: githubConnection
     type: string
     default: false
-  - name: gitubRepositoryName
-    type: string
-    default: false
   - name: githubPullRequestComment
     type: string
     default: false
