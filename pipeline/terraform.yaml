@@ -28,7 +28,7 @@ parameters:
         terraformPlanFile: terraform.prd.tfplan
 
 stages:
-- ${{ if and(eq(variables['Build.SourceBranch'], parameters.envConfig['DEV'].gitBranch), ne(variables['Build.Reason'], 'PullRequest')) }}:
+- ${{ if eq(variables['Build.SourceBranch'], parameters.envConfig['DEV'].gitBranch) }}:
   - stage: DEV
     displayName: "Continuous Integration (DEV)"
     jobs:
@@ -40,7 +40,7 @@ stages:
           terraformPath: ${{ parameters.terraformPath }}
           environmentDeploy: ${{ parameters.envConfig['DEV'].environmentDeploy }}
           resourceContainer: ${{ parameters.resourceContainer }}
-- ${{ if and(eq(variables['Build.SourceBranch'], parameters.envConfig['QA'].gitBranch), ne(variables['Build.Reason'], 'PullRequest')) }}:
+- ${{ if eq(variables['Build.SourceBranch'], parameters.envConfig['QA'].gitBranch) }}:
   - stage: QA
     displayName: "Continuous Delivery (QA)"
     jobs:
@@ -52,7 +52,7 @@ stages:
           terraformPath: ${{ parameters.terraformPath }}
           environmentDeploy: ${{ parameters.envConfig['QA'].environmentDeploy }}
           resourceContainer: ${{ parameters.resourceContainer }}
-- ${{ if and(eq(variables['Build.SourceBranch'], parameters.envConfig['UAT'].gitBranch), ne(variables['Build.Reason'], 'PullRequest')) }}:
+- ${{ if eq(variables['Build.SourceBranch'], parameters.envConfig['UAT'].gitBranch) }}:
   - stage: UAT
     displayName: "Continuous Delivery (UAT)"
     jobs:
@@ -64,7 +64,7 @@ stages:
           terraformPath: ${{ parameters.terraformPath }}
           environmentDeploy: ${{ parameters.envConfig['UAT'].environmentDeploy }}
           resourceContainer: ${{ parameters.resourceContainer }}
-- ${{ if and(eq(variables['Build.SourceBranch'], parameters.envConfig['PRD'].gitBranch), ne(variables['Build.Reason'], 'PullRequest')) }}:
+- ${{ if eq(variables['Build.SourceBranch'], parameters.envConfig['PRD'].gitBranch) }}:
   - stage: PRD
     displayName: "Continuous Delivery (PRD)"
     jobs:
