@@ -8,9 +8,6 @@ parameters:
 
 steps:
   - script: |
-      echo $TF_PLAN_FILE
-      echo $TF_WORKSPACE_ENV
-
       terraform workspace select $TF_WORKSPACE_ENV || \
       terraform workspace new $TF_WORKSPACE_ENV
     displayName: "Run Terraform workspace (select or create)"
