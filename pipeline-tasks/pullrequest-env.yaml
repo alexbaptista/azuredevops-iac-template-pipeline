@@ -8,6 +8,7 @@ parameters:
 
 steps:
   - bash: |
+      set -xT
       if [ "$(System.PullRequest.TargetBranch)" = *"${{ parameters.envConfig['DEV'].gitBranch }}"* ];
       then
         echo "##vso[task.setvariable variable=TF_PLAN_FILE]${{ parameters.terraformConfig['DEV'].terraformPlanFile }}"
