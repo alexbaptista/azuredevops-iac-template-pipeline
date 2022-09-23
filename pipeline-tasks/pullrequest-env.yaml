@@ -7,27 +7,52 @@ parameters:
   default: false
 
 steps:
-  - bash: echo "##vso[task.setvariable variable=PRTargetBranch]$(System.PullRequest.TargetBranch)"
-    name: envPRExport
+  # - bash: echo "##vso[task.setvariable variable=PRTargetBranch]$(System.PullRequest.TargetBranch)"
+  #   name: envPRExport
   # - bash: echo $(envPRExport.PRTargetBranch)
   #   name: testPrint
-  - ${{ if eq(variables['PRTargetBranch'], parameters.envConfig['DEV'].gitBranch) }}:
-    - bash: |
-        echo "##vso[task.setvariable variable=terraformPlanFilePR;isOutput=true]${{ parameters.terraformConfig['DEV'].terraformPlanFile }}"
-        echo "##vso[task.setvariable variable=terraformWorkspaceEnvPR;isOutput=true]${{ parameters.terraformConfig['DEV'].terraformWorkspaceEnv }}"
-      name: envConfigTargetPR
-  - ${{ if eq(variables['PRTargetBranch'], parameters.envConfig['QA'].gitBranch) }}:
-    - bash: |
-        echo "##vso[task.setvariable variable=terraformPlanFilePR;isOutput=true]${{ parameters.terraformConfig['QA'].terraformPlanFile }}"
-        echo "##vso[task.setvariable variable=terraformWorkspaceEnvPR;isOutput=true]${{ parameters.terraformConfig['QA'].terraformWorkspaceEnv }}"
-      name: envConfigTargetPR
-  - ${{ if eq(variables['PRTargetBranch'], parameters.envConfig['UAT'].gitBranch) }}:
-    - bash: |
-        echo "##vso[task.setvariable variable=terraformPlanFilePR;isOutput=true]${{ parameters.terraformConfig['UAT'].terraformPlanFile }}"
-        echo "##vso[task.setvariable variable=terraformWorkspaceEnvPR;isOutput=true]${{ parameters.terraformConfig['UAT'].terraformWorkspaceEnv }}"
-      name: envConfigTargetPR
-  - ${{ if eq(variables['PRTargetBranch'], parameters.envConfig['PRD'].gitBranch) }}:
-    - bash: |
-        echo "##vso[task.setvariable variable=terraformPlanFilePR;isOutput=true]${{ parameters.terraformConfig['PRD'].terraformPlanFile }}"
-        echo "##vso[task.setvariable variable=terraformWorkspaceEnvPR;isOutput=true]${{ parameters.terraformConfig['PRD'].terraformWorkspaceEnv }}"
-      name: envConfigTargetPR
+  # - ${{ if eq(variables['PRTargetBranch'], parameters.envConfig['DEV'].gitBranch) }}:
+  #   - bash: |
+  #       echo "##vso[task.setvariable variable=terraformPlanFilePR;isOutput=true]${{ parameters.terraformConfig['DEV'].terraformPlanFile }}"
+  #       echo "##vso[task.setvariable variable=terraformWorkspaceEnvPR;isOutput=true]${{ parameters.terraformConfig['DEV'].terraformWorkspaceEnv }}"
+  #     name: envConfigTargetPR
+  # - ${{ if eq(variables['PRTargetBranch'], parameters.envConfig['QA'].gitBranch) }}:
+  #   - bash: |
+  #       echo "##vso[task.setvariable variable=terraformPlanFilePR;isOutput=true]${{ parameters.terraformConfig['QA'].terraformPlanFile }}"
+  #       echo "##vso[task.setvariable variable=terraformWorkspaceEnvPR;isOutput=true]${{ parameters.terraformConfig['QA'].terraformWorkspaceEnv }}"
+  #     name: envConfigTargetPR
+  # - ${{ if eq(variables['PRTargetBranch'], parameters.envConfig['UAT'].gitBranch) }}:
+  #   - bash: |
+  #       echo "##vso[task.setvariable variable=terraformPlanFilePR;isOutput=true]${{ parameters.terraformConfig['UAT'].terraformPlanFile }}"
+  #       echo "##vso[task.setvariable variable=terraformWorkspaceEnvPR;isOutput=true]${{ parameters.terraformConfig['UAT'].terraformWorkspaceEnv }}"
+  #     name: envConfigTargetPR
+  # - ${{ if eq(variables['PRTargetBranch'], parameters.envConfig['PRD'].gitBranch) }}:
+  #   - bash: |
+  #       echo "##vso[task.setvariable variable=terraformPlanFilePR;isOutput=true]${{ parameters.terraformConfig['PRD'].terraformPlanFile }}"
+  #       echo "##vso[task.setvariable variable=terraformWorkspaceEnvPR;isOutput=true]${{ parameters.terraformConfig['PRD'].terraformWorkspaceEnv }}"
+  #     name: envConfigTargetPR 
+
+  - bash: |
+      if [ $(System.PullRequest.TargetBranch) = ${{ parameters.envConfig['DEV'].gitBranch }} ]; then
+
+        echo "##vso[task.setvariable variable=TF_PLAN_FILE]${{ parameters.terraformConfig['DEV'].terraformPlanFile }}"
+        echo "##vso[task.setvariable variable=TF_WORKSPACE_ENV]${{ parameters.terraformConfig['DEV'].terraformWorkspaceEnv }}"
+
+      elif [ $(System.PullRequest.TargetBranch) = ${{ parameters.envConfig['QA'].gitBranch }} ]; then
+
+        echo "##vso[task.setvariable variable=TF_PLAN_FILE]${{ parameters.terraformConfig['QA'].terraformPlanFile }}"
+        echo "##vso[task.setvariable variable=TF_WORKSPACE_ENV]${{ parameters.terraformConfig['QA'].terraformWorkspaceEnv }}"
+
+      elif [ $(System.PullRequest.TargetBranch) = ${{ parameters.envConfig['UAT'].gitBranch }} ]; then
+
+        echo "##vso[task.setvariable variable=TF_PLAN_FILE]${{ parameters.terraformConfig['UAT'].terraformPlanFile }}"
+        echo "##vso[task.setvariable variable=TF_WORKSPACE_ENV]${{ parameters.terraformConfig['UAT'].terraformWorkspaceEnv }}"
+
+      elif [ $(System.PullRequest.TargetBranch) = ${{ parameters.envConfig['PRD'].gitBranch }} ]; then
+
+        echo "##vso[task.setvariable variable=TF_PLAN_FILE]${{ parameters.terraformConfig['PRD'].terraformPlanFile }}"
+        echo "##vso[task.setvariable variable=TF_WORKSPACE_ENV]${{ parameters.terraformConfig['PRD'].terraformWorkspaceEnv }}"
+
+      fi
+    name: Define variables for PR
+
