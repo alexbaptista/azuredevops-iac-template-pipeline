@@ -42,7 +42,7 @@ stages:
           terraformPath: ${{ parameters.terraformPath }}
           environmentDeploy: ${{ parameters.envConfig['DEV'].environmentDeploy }}
           resourceContainer: ${{ parameters.resourceContainer }}
-- ${{ eq(variables['Build.SourceBranch'], parameters.envConfig['QA'].gitBranch) }}:
+- ${{ if eq(variables['Build.SourceBranch'], parameters.envConfig['QA'].gitBranch) }}:
   - stage: QA
     displayName: "Continuous Delivery (QA)"
     # condition: ${{ eq(variables['Build.SourceBranch'], parameters.envConfig['QA'].gitBranch) }}
@@ -55,7 +55,7 @@ stages:
           terraformPath: ${{ parameters.terraformPath }}
           environmentDeploy: ${{ parameters.envConfig['QA'].environmentDeploy }}
           resourceContainer: ${{ parameters.resourceContainer }}
-- ${{ eq(variables['Build.SourceBranch'], parameters.envConfig['UAT'].gitBranch) }}:
+- ${{ if eq(variables['Build.SourceBranch'], parameters.envConfig['UAT'].gitBranch) }}:
   - stage: UAT
     displayName: "Continuous Delivery (UAT)"
     # condition: ${{ eq(variables['Build.SourceBranch'], parameters.envConfig['UAT'].gitBranch) }}
@@ -68,7 +68,7 @@ stages:
           terraformPath: ${{ parameters.terraformPath }}
           environmentDeploy: ${{ parameters.envConfig['UAT'].environmentDeploy }}
           resourceContainer: ${{ parameters.resourceContainer }}
-- ${{ eq(variables['Build.SourceBranch'], parameters.envConfig['PRD'].gitBranch) }}:
+- ${{ if eq(variables['Build.SourceBranch'], parameters.envConfig['PRD'].gitBranch) }}:
   - stage: PRD
     displayName: "Continuous Delivery (PRD)"
     # condition: ${{ eq(variables['Build.SourceBranch'], parameters.envConfig['PRD'].gitBranch) }}
