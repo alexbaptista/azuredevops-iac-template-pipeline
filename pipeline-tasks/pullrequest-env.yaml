@@ -72,12 +72,12 @@ steps:
 
       echo "##vso[task.setvariable variable=TF_PLAN_FILE]${{ parameters.terraformConfig['DEV'].terraformPlanFile }}"
       echo "##vso[task.setvariable variable=TF_WORKSPACE_ENV]${{ parameters.terraformConfig['DEV'].terraformWorkspaceEnv }}"
-      
+
       echo $(System.PullRequest.TargetBranch)
       echo ${{ parameters.envConfig['DEV'].gitBranch }}
       
-      echo ${{ variables['TF_PLAN_FILE'] }}
-      echo ${{ variables['TF_WORKSPACE_ENV'] }}
+      echo $TF_PLAN_FILE
+      echo $TF_WORKSPACE_ENV
       
     name: DefineVarsForPR
     displayName: "Define variables for PR"
