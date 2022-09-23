@@ -9,22 +9,22 @@ parameters:
 steps:
   - bash: |
       set -xT
-      if [ "${{ parameters.envConfig['DEV'].gitBranch }}" == *"$(System.PullRequest.TargetBranch)"* ];
+      if [ "${{ parameters.envConfig['DEV'].gitBranch }}" == "refs/heads/$(System.PullRequest.TargetBranch)" ];
       then
         echo "##vso[task.setvariable variable=TF_PLAN_FILE]${{ parameters.terraformConfig['DEV'].terraformPlanFile }}"
         echo "##vso[task.setvariable variable=TF_WORKSPACE_ENV]${{ parameters.terraformConfig['DEV'].terraformWorkspaceEnv }}"
         echo "DEV"
-      elif [ "${{ parameters.envConfig['QA'].gitBranch }}" == *"$(System.PullRequest.TargetBranch)"* ];
+      elif [ "${{ parameters.envConfig['QA'].gitBranch }}" == "refs/heads/$(System.PullRequest.TargetBranch)" ];
       then
         echo "##vso[task.setvariable variable=TF_PLAN_FILE]${{ parameters.terraformConfig['QA'].terraformPlanFile }}"
         echo "##vso[task.setvariable variable=TF_WORKSPACE_ENV]${{ parameters.terraformConfig['QA'].terraformWorkspaceEnv }}"
         echo "QA"
-      elif [ "${{ parameters.envConfig['UAT'].gitBranch }}" == *"$(System.PullRequest.TargetBranch)"* ];
+      elif [ "${{ parameters.envConfig['UAT'].gitBranch }}" == "refs/heads/$(System.PullRequest.TargetBranch)" ];
       then
         echo "##vso[task.setvariable variable=TF_PLAN_FILE]${{ parameters.terraformConfig['UAT'].terraformPlanFile }}"
         echo "##vso[task.setvariable variable=TF_WORKSPACE_ENV]${{ parameters.terraformConfig['UAT'].terraformWorkspaceEnv }}"
         echo "UAT"
-      elif [ "${{ parameters.envConfig['PRD'].gitBranch }}" == *"$(System.PullRequest.TargetBranch)"* ];
+      elif [ "${{ parameters.envConfig['PRD'].gitBranch }}" == "refs/heads/$(System.PullRequest.TargetBranch)" ];
       then
         echo "##vso[task.setvariable variable=TF_PLAN_FILE]${{ parameters.terraformConfig['PRD'].terraformPlanFile }}"
         echo "##vso[task.setvariable variable=TF_WORKSPACE_ENV]${{ parameters.terraformConfig['PRD'].terraformWorkspaceEnv }}"
