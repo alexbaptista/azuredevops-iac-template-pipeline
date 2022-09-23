@@ -58,7 +58,7 @@ jobs:
         parameters:
           terraformPath: ${{ parameters.terraformPath }}
           terraformPlanFile: ${{ parameters.terraformPlanFile }}
-      - template: ../pipeline-tasks/github-pr-comment.yaml
+      - template: ../pipeline-tasks/github-pullrequest-comment.yaml
         parameters:
           githubConnection: ${{ parameters.githubConnection }}
           gitubRepositoryName: ${{ parameters.gitubRepositoryName }}

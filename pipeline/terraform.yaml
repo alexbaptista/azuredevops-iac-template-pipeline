@@ -80,21 +80,17 @@ stages:
 - ${{ elseif eq(variables['Build.Reason'], 'PullRequest') }}:
   - stage: PR
     displayName: "Pull Request"
-    variables:
-      - name: envTarget
-        ${{ if eq(parameters.envConfig['PR'].githubPRTargetBranch, parameters.envConfig['DEV'].gitBranch) }}:
-          value: "DEV"
-        ${{ if eq(parameters.envConfig['PR'].githubPRTargetBranch, parameters.envConfig['QA'].gitBranch) }}:
-          value: "QA"
-        ${{ if eq(parameters.envConfig['PR'].githubPRTargetBranch, parameters.envConfig['UAT'].gitBranch) }}:
-          value: "UAT"
-        ${{ if eq(parameters.envConfig['PR'].githubPRTargetBranch, parameters.envConfig['PRD'].gitBranch) }}:
-          value: "PRD"
     jobs:
+      - template: "../pipeline-jobs/pullrequest-env.yaml"
+        parameters:
+          envConfig: ${{ parameters.envConfig }}
+          terraformConfig: ${{ parameters.terraformConfig }}
       - template: "../pipeline-jobs/terraform-pr.yaml"
         parameters:
-          terraformPlanFile: ${{ parameters.terraformConfig[variables.envTarget].terraformPlanFile }}
-          terraformWorkspaceEnv: ${{ parameters.terraformConfig[variables.envTarget].terraformWorkspaceEnv }}
+          # terraformPlanFile: ${{ parameters.terraformConfig[variables.envTarget].terraformPlanFile }}
+          # terraformWorkspaceEnv: ${{ parameters.terraformConfig[variables.envTarget].terraformWorkspaceEnv }}
+          terraformPlanFile: $(envConfigTargetPR.terraformPlanFilePR)
+          terraformWorkspaceEnv: $(envConfigTargetPR.terraformWorkspaceEnvPR)
           terraformVersion: ${{ parameters.terraformVersion }}
           terraformPath: ${{ parameters.terraformPath }}
           resourceContainer: ${{ parameters.resourceContainer }}
