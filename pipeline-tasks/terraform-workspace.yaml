@@ -10,8 +10,8 @@ steps:
   - script: |
       echo ${{ variables['TF_PLAN_FILE'] }}
       echo ${{ variables['TF_WORKSPACE_ENV'] }}
-      echo $TF_PLAN_FILE
-      echo $TF_WORKSPACE_ENV
+      echo $(TF_PLAN_FILE)
+      echo $(TF_WORKSPACE_ENV)
 
       terraform workspace select $TF_WORKSPACE_ENV || \
       terraform workspace new $TF_WORKSPACE_ENV
