@@ -28,10 +28,10 @@ parameters:
         terraformPlanFile: terraform.prd.tfplan
 
 stages:
-- ${{ if ne(variables['Build.Reason'], 'PullRequest') }}:
+- ${{ if eq(variables['Build.SourceBranch'], parameters.envConfig['DEV'].gitBranch) }}:
   - stage: DEV
     displayName: "Continuous Integration (DEV)"
-    condition: ${{ eq(variables['Build.SourceBranch'], parameters.envConfig['DEV'].gitBranch) }}
+    condition: ${{ ne(variables['Build.Reason'], 'PullRequest') }}
     jobs:
       - template: "../pipeline-jobs/terraform-ci.yaml"
         parameters:
@@ -41,10 +41,10 @@ stages:
           terraformPath: ${{ parameters.terraformPath }}
           environmentDeploy: ${{ parameters.envConfig['DEV'].environmentDeploy }}
           resourceContainer: ${{ parameters.resourceContainer }}
-- ${{ if ne(variables['Build.Reason'], 'PullRequest') }}:
+- ${{ if eq(variables['Build.SourceBranch'], parameters.envConfig['QA'].gitBranch) }}:
   - stage: QA
     displayName: "Continuous Delivery (QA)"
-    condition: ${{ eq(variables['Build.SourceBranch'], parameters.envConfig['QA'].gitBranch) }}
+    condition: ${{ ne(variables['Build.Reason'], 'PullRequest') }}
     jobs:
       - template: "../pipeline-jobs/terraform-cd.yaml"
         parameters:
@@ -54,10 +54,10 @@ stages:
           terraformPath: ${{ parameters.terraformPath }}
           environmentDeploy: ${{ parameters.envConfig['QA'].environmentDeploy }}
           resourceContainer: ${{ parameters.resourceContainer }}
-- ${{ if ne(variables['Build.Reason'], 'PullRequest') }}:
+- ${{ if eq(variables['Build.SourceBranch'], parameters.envConfig['UAT'].gitBranch) }}:
   - stage: UAT
     displayName: "Continuous Delivery (UAT)"
-    condition: ${{ eq(variables['Build.SourceBranch'], parameters.envConfig['UAT'].gitBranch) }}
+    condition: ${{ ne(variables['Build.Reason'], 'PullRequest') }}
     jobs:
       - template: "../pipeline-jobs/terraform-cd.yaml"
         parameters:
@@ -67,10 +67,10 @@ stages:
           terraformPath: ${{ parameters.terraformPath }}
           environmentDeploy: ${{ parameters.envConfig['UAT'].environmentDeploy }}
           resourceContainer: ${{ parameters.resourceContainer }}
-- ${{ if ne(variables['Build.Reason'], 'PullRequest') }}:
+- ${{ if eq(variables['Build.SourceBranch'], parameters.envConfig['PRD'].gitBranch) }}:
   - stage: PRD
     displayName: "Continuous Delivery (PRD)"
-    condition: ${{ eq(variables['Build.SourceBranch'], parameters.envConfig['PRD'].gitBranch) }}
+    condition: ${{ ne(variables['Build.Reason'], 'PullRequest') }}
     jobs:
       - template: "../pipeline-jobs/terraform-cd.yaml"
         parameters:
