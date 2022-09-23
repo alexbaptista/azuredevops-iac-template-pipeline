@@ -8,7 +8,7 @@ parameters:
 
 steps:
   - script: |
-      env
+      env | grep TF_
       terraform workspace select $TF_WORKSPACE_ENV || \
       terraform workspace new $TF_WORKSPACE_ENV
     displayName: "Run Terraform workspace (select or create)"
