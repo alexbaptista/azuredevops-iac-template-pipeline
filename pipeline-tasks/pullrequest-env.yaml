@@ -70,6 +70,11 @@ steps:
 
       fi
 
+      echo $(System.PullRequest.TargetBranch)
+      echo ${{ parameters.envConfig['DEV'].gitBranch }}
+      
+      echo ${{ variables['TF_PLAN_FILE'] }}
+      echo ${{ variables['TF_WORKSPACE_ENV'] }}
       
     name: DefineVarsForPR
     displayName: "Define variables for PR"
