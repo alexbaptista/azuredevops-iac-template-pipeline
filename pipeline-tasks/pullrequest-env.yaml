@@ -69,6 +69,8 @@ steps:
         echo "DEV"
 
       fi
+
+      
     name: DefineVarsForPR
     displayName: "Define variables for PR"
 
