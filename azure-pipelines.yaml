@@ -13,7 +13,7 @@ trigger:
 pr:
   branches:
     include:
-      - refs/heads/features/*
+      - refs/heads/feature/*
       - refs/heads/hotfix/*
   paths:
     exclude:
