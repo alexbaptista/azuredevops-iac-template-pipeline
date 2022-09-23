@@ -16,6 +16,8 @@ steps:
   - task: GitHubComment@0
     inputs:
       gitHubConnection: ${{ parameters.githubConnection }}
+      # gitHubConnection: ${{ parameters.githubConnection }}
       repositoryName: ${{ parameters.gitubRepositoryName }}
-      id: ${{ parameters.githubPullRequestNumber }}
+      id: $(System.PullRequest.PullRequestNumber)
+      # id: ${{ parameters.githubPullRequestNumber }}
       comment: ${{ parameters.githubPullRequestComment }}
