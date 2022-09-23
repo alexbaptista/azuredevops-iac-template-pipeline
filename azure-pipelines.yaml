@@ -1,25 +1,22 @@
 name: $(Date:yyyyMMdd)$(Rev:.r)
-# trigger:
-#   branches:
-#     include:
-#       - refs/heads/dev
-#       - refs/heads/qa
-#       - refs/heads/uat
-#       - refs/heads/main
-#     exclude:
-#       - refs/pull/**/merge
-#   paths:
-#     exclude:
-#     - README.md
+trigger:
+  branches:
+    include:
+      - refs/heads/dev
+      - refs/heads/qa
+      - refs/heads/uat
+      - refs/heads/main
+  paths:
+    exclude:
+    - README.md
 
 pr:
   branches:
     include:
-      - refs/pull/**/merge
-      # - refs/heads/dev
-      # - refs/heads/qa
-      # - refs/heads/uat
-      # - refs/heads/main
+      - refs/heads/dev
+      - refs/heads/qa
+      - refs/heads/uat
+      - refs/heads/main
   paths:
     exclude:
     - README.md
