@@ -27,9 +27,3 @@ steps:
       fi
     name: DefineVarsForPR
     displayName: "Define variables for PR"
-  - bash: |
-      echo $TF_PLAN_FILE
-      echo $TF_WORKSPACE_ENV
-    name: PrintVars
-    displayName: "Print vars"
-
