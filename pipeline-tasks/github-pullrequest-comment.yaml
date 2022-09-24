@@ -2,9 +2,6 @@ parameters:
   - name: githubConnection
     type: string
     default: false
-  - name: githubPullRequestComment
-    type: string
-    default: false
 
 steps:
   - task: GitHubComment@0
@@ -12,4 +9,9 @@ steps:
       gitHubConnection: ${{ parameters.githubConnection }}
       repositoryName: $(Build.Repository.Name)
       id: $(System.PullRequest.PullRequestNumber)
-      comment: ${{ parameters.githubPullRequestComment }}
+      comment: |
+      Terraform plan details:
+
+      ```
+      $TF_PLAN_COMMENT_PR
+      ```

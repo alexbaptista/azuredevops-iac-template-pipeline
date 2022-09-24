@@ -6,4 +6,7 @@ parameters:
 jobs:
   - bash: |
       terraform show -json $TF_PLAN_FILE > terraform.json
+      TF_PLAN_JSON=$(cat terraform.json | jq '.')
+      echo "##vso[task.setvariable variable=TF_PLAN_COMMENT_PR]$TF_PLAN_JSON"
+    name: Get Terraform Plan
     workingDirectory: ${{ parameters.terraformPath }}
