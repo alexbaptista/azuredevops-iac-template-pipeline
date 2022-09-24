@@ -9,6 +9,4 @@ steps:
       gitHubConnection: ${{ parameters.githubConnection }}
       repositoryName: $(Build.Repository.Name)
       id: $(System.PullRequest.PullRequestNumber)
-      comment: |
-      Terraform plan details
-      $TF_PLAN_COMMENT_PR
+      comment: $TF_PLAN_COMMENT_PR
