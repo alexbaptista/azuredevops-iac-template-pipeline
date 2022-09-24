@@ -1,0 +1,9 @@
+parameters:
+  - name: terraformPath
+    type: string
+    default: false
+
+jobs:
+  - bash: |
+      terraform show -json $TF_PLAN_FILE > terraform.json
+    workingDirectory: ${{ parameters.terraformPath }}

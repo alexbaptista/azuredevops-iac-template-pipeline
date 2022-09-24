@@ -2,12 +2,6 @@ parameters:
   - name: githubConnection
     type: string
     default: false
-  - name: gitubRepositoryName
-    type: string
-    default: false
-  - name: githubPullRequestId
-    type: number
-    default: false
   - name: githubPullRequestComment
     type: string
     default: false
@@ -16,6 +10,6 @@ steps:
   - task: GitHubComment@0
     inputs:
       gitHubConnection: ${{ parameters.githubConnection }}
-      repositoryName: ${{ parameters.gitubRepositoryName }}
-      id: ${{ parameters.githubPullRequestId }}
+      repositoryName: $(Build.Repository.Name)
+      id: $(System.PullRequest.PullRequestNumber)
       comment: ${{ parameters.githubPullRequestComment }}
