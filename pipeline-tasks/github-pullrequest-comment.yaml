@@ -12,6 +12,4 @@ steps:
       comment: |
       Terraform plan details:
 
-      ```
       $TF_PLAN_COMMENT_PR
-      ```
