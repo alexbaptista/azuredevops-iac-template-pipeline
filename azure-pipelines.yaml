@@ -32,7 +32,7 @@ resources:
   repositories:
     - repository: devopsRepo
       type: github
-      endpoint: github.com_alexbaptista # CHANGE HERE AFTER FORK REPO 
+      endpoint: github.com_alexbaptista # CHANGE HERE AFTER FORK REPO
       name: alexbaptista/azuredevops-iac-template-pipeline # CHANGE HERE AFTER FORK REPO
   containers:
     - container: terraform
