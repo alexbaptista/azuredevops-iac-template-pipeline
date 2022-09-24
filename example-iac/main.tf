@@ -19,6 +19,6 @@ locals {
 }
 
 resource "azurerm_resource_group" "example" {
-  name     = var.azurerm_name-local.environment
+  name     = "${var.azurerm_name}-${local.environment}"
   location = var.azurerm_region
 }
