@@ -57,4 +57,3 @@ jobs:
       - template: ../pipeline-tasks/github-pullrequest-comment.yaml
         parameters:
           githubConnection: ${{ parameters.githubConnection }}
-          githubPullRequestComment: ${{ parameters.githubPullRequestComment }}
