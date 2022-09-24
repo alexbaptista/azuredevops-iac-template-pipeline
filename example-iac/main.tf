@@ -15,7 +15,7 @@ provider "azurerm" {
 }
 
 locals {
-    environment = terraform.workspace
+  environment = terraform.workspace
 }
 
 resource "azurerm_resource_group" "example" {
