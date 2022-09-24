@@ -14,7 +14,11 @@ provider "azurerm" {
   features {}
 }
 
+locals {
+    environment = terraform.workspace
+}
+
 resource "azurerm_resource_group" "example" {
-  name     = var.azurerm_name
+  name     = var.azurerm_name-local.environment
   location = var.azurerm_region
 }
