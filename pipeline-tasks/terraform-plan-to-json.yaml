@@ -5,8 +5,8 @@ parameters:
 
 steps:
   - bash: |
-      terraform show -json $TF_PLAN_FILE > terraform.json
-      TF_PLAN_JSON=$(jq <<< $(cat terraform.json))
+      terraform show -no-color $TF_PLAN_FILE > terraform.txt
+      TF_PLAN_JSON=$(cat terraform.txt)
       echo "##vso[task.setvariable variable=TF_PLAN_COMMENT_PR]$TF_PLAN_JSON"
     name: GetTerraformPlan
     displayName: "Get Terraform Plan"

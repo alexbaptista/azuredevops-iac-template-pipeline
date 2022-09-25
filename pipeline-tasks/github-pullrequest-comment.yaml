@@ -11,4 +11,3 @@ steps:
       id: $(System.PullRequest.PullRequestNumber)
       comment: |
         $(TF_PLAN_COMMENT_PR)
-        $(cat terraform.json)
