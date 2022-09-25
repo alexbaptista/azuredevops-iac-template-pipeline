@@ -6,7 +6,13 @@ parameters:
 steps:
   - bash: |
       terraform show -no-color $TF_PLAN_FILE > terraform.txt
-      TF_PLAN_TXT="$(cat terraform.txt)"
+      # TF_PLAN_TXT="$(cat terraform.txt)"
+      TF_PLAN_TXT=$(cat <<EOF
+      TEST
+      TEST
+      TEST
+      TEST
+      )
       echo "##vso[task.setvariable variable=TF_PLAN_COMMENT_PR]$TF_PLAN_TXT"
     name: GetTerraformPlan
     displayName: "Get Terraform Plan"
