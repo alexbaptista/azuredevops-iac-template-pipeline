@@ -10,6 +10,6 @@ steps:
       repositoryName: $(Build.Repository.Name)
       id: $(System.PullRequest.PullRequestNumber)
       comment: |
-      ```
+        ```
         $(TF_PLAN_COMMENT_PR)
-      ```
+        ```
