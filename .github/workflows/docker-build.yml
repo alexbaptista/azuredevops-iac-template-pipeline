@@ -15,7 +15,7 @@ on:
       - feature/docker-hub
 
 env:
-  DOCKERFILE_PATH: ./container-image/Dockerfile
+  DOCKERFILE_PATH: container-image/Dockerfile
   DOCKERFILE_REPO: alxbap/azuredevops-iac-template-pipeline
 
 jobs:
