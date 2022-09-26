@@ -12,9 +12,7 @@ steps:
         "body": "## Terraform changes\n\n```'$(printf %s "$(cat terraform.plan.json | sed 's:^.\(.*\).$:\1:' )")'```"
       }
       '''
-      printf %s $TF_PLAN_FILE_JSON > github.pr.json
-
-      cat github.pr.json
+      printf %s "$TF_PLAN_FILE_JSON" > github.pr.json
     name: GetTerraformPlan
     displayName: "Get Terraform Plan"
     workingDirectory: ${{ parameters.terraformPath }}
