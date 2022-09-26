@@ -8,15 +8,6 @@ steps:
       terraform show -json $TF_PLAN_FILE > terraform.plan.json
       terraform show -no-color $TF_PLAN_FILE > terraform.plan.txt
 
-      # FILE_TXT=$(cat terraform.plan.txt | tr '"' '\"' )
-      # for line in $FILE_TXT
-      # do
-      #   TF_PLAN_FILE_TXT+="$line\n"
-      # done
-      # FILE_TXT=cat << "EOF"
-      # asfdafsaf
-      # EOF
-
       TF_PLAN_FILE_TXT=$(cat <<END
       $(cat terraform.plan.txt)
       END
