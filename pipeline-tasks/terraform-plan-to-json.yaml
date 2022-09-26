@@ -7,8 +7,7 @@ steps:
   - bash: |
       terraform show -no-color $TF_PLAN_FILE > terraform.plan.txt
       jq -Rs . < terraform.plan.txt > terraform.plan.json
-      TF_PLAN_FILE_JSON=$(cat terraform.plan.json | sed 's/"/```/g')
-      TF_PLAN_COMMENT="{\"body\": \"## Terraform changes\n\n$TF_PLAN_FILE_JSON\" }"
+      TF_PLAN_FILE_JSON=$( jq -n --arg body "## Terraform changes\n\n$(cat terraform.plan.json | sed 's/\"/```/g' | jq --raw-input . | sed 's/"//g' )" '{body: $body}' )
       echo "##vso[task.setvariable variable=TF_PLAN_COMMENT_PR]$TF_PLAN_COMMENT"
     name: GetTerraformPlan
     displayName: "Get Terraform Plan"
