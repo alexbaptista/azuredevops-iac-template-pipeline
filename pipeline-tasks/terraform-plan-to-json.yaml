@@ -5,7 +5,7 @@ parameters:
 
 steps:
   - bash: |
-      terraform show $TF_PLAN_FILE > terraform.plan.json
+      terraform show -json $TF_PLAN_FILE > terraform.plan.json
 
       We need to strip the single quotes that are wrapping it so we can parse it with JQ
       TF_PLAN_FILE=$(cat terraform.plan.json | sed "s/^'//g" | sed "s/'$//g")
