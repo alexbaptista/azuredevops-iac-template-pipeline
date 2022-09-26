@@ -27,3 +27,9 @@ steps:
         ```
         $(TF_PLAN_COMMENT_PR_TO_BE_DELETED)
         ```
+
+        File:
+
+        ```
+        $(TF_PLAN_COMMENT_PR_FILE)
+        ```

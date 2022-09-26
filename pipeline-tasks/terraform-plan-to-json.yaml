@@ -22,6 +22,8 @@ steps:
       echo "##vso[task.setvariable variable=TF_PLAN_COMMENT_PR_TO_BE_CREATED]$TF_PLAN_TO_BE_CREATED"
       echo "##vso[task.setvariable variable=TF_PLAN_COMMENT_PR_TO_BE_UPDATED]$TF_PLAN_TO_BE_UPDATED"
       echo "##vso[task.setvariable variable=TF_PLAN_COMMENT_PR_TO_BE_DELETED]$TF_PLAN_TO_BE_DELETED"
+
+      echo "##vso[task.setvariable variable=TF_PLAN_COMMENT_PR_FILE]$TF_PLAN_FILE"
     name: GetTerraformPlan
     displayName: "Get Terraform Plan"
     workingDirectory: ${{ parameters.terraformPath }}
