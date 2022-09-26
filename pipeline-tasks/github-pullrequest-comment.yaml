@@ -8,11 +8,12 @@ parameters:
 
 steps:
     - bash: |
+        cat github.pr.json
         curl -v -X POST \
           -H "Accept: application/vnd.github+json" \
           -H "Authorization: Bearer $GITHUB_TOKEN" \
           https://api.github.com/repos/$(Build.Repository.Name)/issues/$(System.PullRequest.PullRequestNumber)/comments \
-          -d github.pr.json
+          -d @github.pr.json
       env:
         GITHUB_TOKEN: ${{ parameters.githubToken }}
       name: GitHubPRComment
