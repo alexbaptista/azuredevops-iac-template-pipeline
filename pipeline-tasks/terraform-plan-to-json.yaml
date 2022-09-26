@@ -8,7 +8,7 @@ steps:
       terraform show -json $TF_PLAN_FILE > terraform.plan.json
       terraform show -no-color $TF_PLAN_FILE > terraform.plan.txt
 
-      TF_PLAN_FILE_TXT=$(cat terraform.plan.txt)
+      TF_PLAN_FILE_TXT="echo -e $(cat terraform.plan.txt)"
 
       We need to strip the single quotes that are wrapping it so we can parse it with JQ
       TF_PLAN_FILE=$(cat terraform.plan.json | sed "s/^'//g" | sed "s/'$//g")
