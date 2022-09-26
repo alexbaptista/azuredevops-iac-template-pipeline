@@ -9,10 +9,10 @@ steps:
       jq -Rs . < terraform.plan.txt > terraform.plan.json
       TF_PLAN_FILE_JSON='''
       {
-        "body": "## Terraform changes\n\n```'$(printf '%s' "$(cat terraform.plan.json | sed 's:^.\(.*\).$:\1:' )")'```"
+        "body": "## Terraform changes\n\n```'$(printf '%q' "$(cat terraform.plan.json | sed 's:^.\(.*\).$:\1:' )")'```"
       }
       '''
-      printf '%s' $TF_PLAN_FILE_JSON > github.pr.json
+      printf '%q' $TF_PLAN_FILE_JSON > github.pr.json
     name: GetTerraformPlan
     displayName: "Get Terraform Plan"
     workingDirectory: ${{ parameters.terraformPath }}
