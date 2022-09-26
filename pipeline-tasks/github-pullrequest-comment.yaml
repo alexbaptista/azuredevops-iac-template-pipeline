@@ -10,7 +10,20 @@ steps:
       repositoryName: $(Build.Repository.Name)
       id: $(System.PullRequest.PullRequestNumber)
       comment: |
-        $(TF_PLAN_COMMENT_PR)
+        Resources to be created:
+
         ```
-        $(TF_PLAN_COMMENT_PR)
+        $(TF_PLAN_COMMENT_PR_TO_BE_CREATED)
+        ```
+
+        Resources to be Updated:
+
+        ```
+        $(TF_PLAN_COMMENT_PR_TO_BE_UPDATED)
+        ```
+
+        Resources to be Deleted:
+
+        ```
+        $(TF_PLAN_COMMENT_PR_TO_BE_DELETED)
         ```
