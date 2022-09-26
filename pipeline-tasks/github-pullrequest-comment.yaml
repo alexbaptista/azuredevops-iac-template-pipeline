@@ -11,6 +11,6 @@ steps:
           https://api.github.com/repos/$(Build.Repository.Name)/issues/$(System.PullRequest.PullRequestNumber)/comments \
           -d '$(TF_PLAN_COMMENT_PR)'
       env:
-        GITHUB_TOKEN: ${{ paramters.githubToken }}
+        GITHUB_TOKEN: ${{ parameters.githubToken }}
       name: GitHubPRComment
       displayName: "GitHub PR Comment"
