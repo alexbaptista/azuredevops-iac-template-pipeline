@@ -1,0 +1,18 @@
+parameters:
+  - name: terraformPath
+    type: string
+    default: false
+
+steps:
+  - bash: |
+      terraform show -no-color $TF_PLAN_FILE > terraform.plan.txt
+      jq -Rs . < terraform.plan.txt > terraform.plan.json
+      TF_PLAN_FILE_JSON='''
+      {
+        "body": "## Terraform changes\n\n```'$(printf %s "$(cat terraform.plan.json | sed 's:^.\(.*\).$:\1:' )")'```"
+      }
+      '''
+      printf %s "$TF_PLAN_FILE_JSON" > github.pr.json
+    name: GetTerraformPlan
+    displayName: "Get Terraform Plan"
+    workingDirectory: ${{ parameters.terraformPath }}

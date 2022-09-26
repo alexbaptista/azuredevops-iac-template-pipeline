@@ -36,7 +36,7 @@ resources:
       name: alexbaptista/azuredevops-iac-template-pipeline # CHANGE HERE AFTER FORK REPO
   containers:
     - container: terraform
-      image: azuredevopsiactemplatepipeline.azurecr.io/iac_azuredevops:v.1.0
+      image: azuredevopsiactemplatepipeline.azurecr.io/iac_azuredevops:v.1.1
       endpoint: azuredevopsiactemplatepipeline
       env:
         TF_STATE_BLOB_ACCOUNT_NAME: $(terraformStateBlobAccountName)
@@ -70,4 +70,4 @@ stages:
           environmentDeploy: $(environmentDeployPRD)
           gitBranch: refs/heads/main
         PR:
-          githubConnection: $(githubConnection)
+          githubToken: $(githubToken)

@@ -14,12 +14,9 @@ parameters:
   - name: resourceContainer
     type: string
     default: false
-  - name: githubConnection
+  - name: githubToken
     type: string
     default: false
-  - name: githubPullRequestComment
-    type: string
-    default: "Write text comment"
 
 jobs:
   - job: "TerraformPullRequest"
@@ -54,7 +51,10 @@ jobs:
       - template: ../pipeline-tasks/terraform-plan.yaml
         parameters:
           terraformPath: ${{ parameters.terraformPath }}
+      - template: ../pipeline-tasks/terraform-plan-to-json.yaml
+        parameters:
+          terraformPath: ${{ parameters.terraformPath }}     
       - template: ../pipeline-tasks/github-pullrequest-comment.yaml
         parameters:
-          githubConnection: ${{ parameters.githubConnection }}
-          githubPullRequestComment: ${{ parameters.githubPullRequestComment }}
+          githubToken: ${{ parameters.githubToken }}
+          terraformPath: ${{ parameters.terraformPath }}     

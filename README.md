@@ -12,3 +12,4 @@ approval stage
 * Don't use tasks
 ** easier todo maintenance
 * Don't use release flow
+* Why do not use Atlantis

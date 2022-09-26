@@ -91,4 +91,4 @@ stages:
           terraformVersion: ${{ parameters.terraformVersion }}
           terraformPath: ${{ parameters.terraformPath }}
           resourceContainer: ${{ parameters.resourceContainer }}
-          githubConnection: ${{ parameters.envConfig['PR'].githubConnection }}
+          githubToken: ${{ parameters.envConfig['PR'].githubToken }}
