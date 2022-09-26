@@ -11,7 +11,7 @@ steps:
       FILE_TXT=$(cat terraform.plan.txt)
       for line in $FILE_TXT
       do
-        TF_PLAN_FILE_TXT .= $(echo -e "$line\n")
+        TF_PLAN_FILE_TXT .= "$line\n"
       done
 
       We need to strip the single quotes that are wrapping it so we can parse it with JQ
