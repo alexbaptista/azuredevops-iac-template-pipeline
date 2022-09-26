@@ -5,11 +5,11 @@ parameters:
 
 steps:
     - bash: |
-        curl -X POST \
+        curl -v -X POST \
           -H "Accept: application/vnd.github+json" \
           -H "Authorization: Bearer $GITHUB_TOKEN" \
           https://api.github.com/repos/$(Build.Repository.Name)/issues/$(System.PullRequest.PullRequestNumber)/comments \
-          -d '{"body":"$(TF_PLAN_COMMENT_PR)"}'
+          -d '{"body":$(TF_PLAN_COMMENT_PR)}'
       env:
         GITHUB_TOKEN: ${{ parameters.githubToken }}
       name: GitHubPRComment
