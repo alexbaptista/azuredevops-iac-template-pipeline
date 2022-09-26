@@ -8,8 +8,6 @@ parameters:
 
 steps:
     - bash: |
-        cat github.pr.json
-        cat terraform.plan.txt
         curl -v -X POST \
           -H "Accept: application/vnd.github+json" \
           -H "Authorization: Bearer $GITHUB_TOKEN" \
