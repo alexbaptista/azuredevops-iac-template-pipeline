@@ -6,6 +6,9 @@ parameters:
 steps:
   - bash: |
       terraform show -json $TF_PLAN_FILE > terraform.plan.json
+      terraform show -no-color $TF_PLAN_FILE > terraform.plan.txt
+
+      TF_PLAN_FILE_TXT=$(cat terraform.plan.txt)
 
       We need to strip the single quotes that are wrapping it so we can parse it with JQ
       TF_PLAN_FILE=$(cat terraform.plan.json | sed "s/^'//g" | sed "s/'$//g")
@@ -24,6 +27,7 @@ steps:
       echo "##vso[task.setvariable variable=TF_PLAN_COMMENT_PR_TO_BE_DELETED]$TF_PLAN_TO_BE_DELETED"
 
       echo "##vso[task.setvariable variable=TF_PLAN_COMMENT_PR_FILE]$TF_PLAN_FILE"
+      echo "##vso[task.setvariable variable=TF_PLAN_COMMENT_PR_FILE_TXT]$TF_PLAN_FILE_TXT"
     name: GetTerraformPlan
     displayName: "Get Terraform Plan"
     workingDirectory: ${{ parameters.terraformPath }}
