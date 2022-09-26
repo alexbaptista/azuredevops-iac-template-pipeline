@@ -1,15 +1,20 @@
 parameters:
-  - name: githubConnection
+  - name: githubToken
     type: string
     default: false
-  - name: githubPullRequestComment
+  - name: terraformPath
     type: string
     default: false
 
 steps:
-  - task: GitHubComment@0
-    inputs:
-      gitHubConnection: ${{ parameters.githubConnection }}
-      repositoryName: $(Build.Repository.Name)
-      id: $(System.PullRequest.PullRequestNumber)
-      comment: ${{ parameters.githubPullRequestComment }}
+    - bash: |
+        curl -X POST \
+          -H "Accept: application/vnd.github+json" \
+          -H "Authorization: Bearer $GITHUB_TOKEN" \
+          https://api.github.com/repos/$(Build.Repository.Name)/issues/$(System.PullRequest.PullRequestNumber)/comments \
+          -d @github.pr.json
+      env:
+        GITHUB_TOKEN: ${{ parameters.githubToken }}
+      name: GitHubPRComment
+      displayName: "GitHub PR Comment"
+      workingDirectory: ${{ parameters.terraformPath }}
