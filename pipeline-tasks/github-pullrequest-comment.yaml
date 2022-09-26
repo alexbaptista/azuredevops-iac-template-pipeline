@@ -39,3 +39,7 @@ steps:
         ```
         $(TF_PLAN_COMMENT_PR_FILE_TXT)
         ```
+
+        ```
+        "\n**Terraform Plan changes summary:**\n===================================\n\n(+): ngrp-dummy-test-DEV (azurerm_resource_group.example)\n\n\n\n"
+        ```
