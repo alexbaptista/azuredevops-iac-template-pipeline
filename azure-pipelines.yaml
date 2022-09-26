@@ -36,8 +36,8 @@ resources:
       name: alexbaptista/azuredevops-iac-template-pipeline # CHANGE HERE AFTER FORK REPO
   containers:
     - container: terraform
-      image: azuredevopsiactemplatepipeline.azurecr.io/iac_azuredevops:v.1.1
-      endpoint: azuredevopsiactemplatepipeline
+      image: docker.io/alxbap/azuredevops-iac-template-pipeline:v.1.2
+      endpoint: docker_alxbap
       env:
         TF_STATE_BLOB_ACCOUNT_NAME: $(terraformStateBlobAccountName)
         TF_STATE_BLOB_CONTAINER_NAME: $(terraformStateBlobContainerName)
