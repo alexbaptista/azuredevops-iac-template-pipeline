@@ -70,4 +70,4 @@ stages:
           environmentDeploy: $(environmentDeployPRD)
           gitBranch: refs/heads/main
         PR:
-          githubConnection: $(githubConnection)
+          githubToken: $(githubToken)

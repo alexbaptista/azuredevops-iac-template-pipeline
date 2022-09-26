@@ -14,7 +14,7 @@ parameters:
   - name: resourceContainer
     type: string
     default: false
-  - name: githubConnection
+  - name: githubToken
     type: string
     default: false
 
@@ -56,4 +56,4 @@ jobs:
           terraformPath: ${{ parameters.terraformPath }}     
       - template: ../pipeline-tasks/github-pullrequest-comment.yaml
         parameters:
-          githubConnection: ${{ parameters.githubConnection }}
+          githubToken: ${{ parameters.githubToken }}

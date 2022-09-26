@@ -4,42 +4,13 @@ parameters:
     default: false
 
 steps:
-  - task: GitHubComment@0
-    inputs:
-      gitHubConnection: ${{ parameters.githubConnection }}
-      repositoryName: $(Build.Repository.Name)
-      id: $(System.PullRequest.PullRequestNumber)
-      comment: |
-        Resources to be created:
-
-        ```
-        $(TF_PLAN_COMMENT_PR_TO_BE_CREATED)
-        ```
-
-        Resources to be Updated:
-
-        ```
-        $(TF_PLAN_COMMENT_PR_TO_BE_UPDATED)
-        ```
-
-        Resources to be Deleted:
-
-        ```
-        $(TF_PLAN_COMMENT_PR_TO_BE_DELETED)
-        ```
-
-        File:
-
-        ```
-        $(TF_PLAN_COMMENT_PR_FILE)
-        ```
-
-        File (TXT):
-        
-        ```
-        $(TF_PLAN_COMMENT_PR_FILE_TXT)
-        ```
-
-        ```
-        "\n**Terraform Plan changes summary:**\n===================================\n\n(+): ngrp-dummy-test-DEV (azurerm_resource_group.example)\n\n\n\n"
-        ```
+    - bash: |
+        curl -X POST \
+          -H "Accept: application/vnd.github+json" \
+          -H "Authorization: Bearer $GITHUB_TOKEN" \
+          https://api.github.com/repos/$(Build.Repository.Name)/issues/$(System.PullRequest.PullRequestNumber)/comments \
+          -d '$(TF_PLAN_COMMENT_PR)'
+      env:
+        GITHUB_TOKEN: ${{ paramters.githubToken }}
+      name: GitHubPRComment
+      displayName: "GitHub PR Comment"

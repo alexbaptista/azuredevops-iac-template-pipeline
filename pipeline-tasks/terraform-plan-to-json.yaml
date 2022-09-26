@@ -6,30 +6,9 @@ parameters:
 steps:
   - bash: |
       terraform show -no-color $TF_PLAN_FILE > terraform.plan.txt
-      jq -Rs . < terraform.plan.txt > terraform.plan.text.json
-
-      terraform show -json $TF_PLAN_FILE > terraform.plan.json
-
-      TF_PLAN_FILE_TXT=$(cat terraform.plan.text.json)
-
-      We need to strip the single quotes that are wrapping it so we can parse it with JQ
-      TF_PLAN_FILE=$(cat terraform.plan.json | sed "s/^'//g" | sed "s/'$//g")
-
-      # Get the count of the number of resources being created
-      TF_PLAN_TO_BE_CREATED=$(echo "$TF_PLAN_FILE" | jq -r ".resource_changes[].change.actions[]" | grep "create" | wc -l | sed 's/^[[:space:]]*//g')
-
-      # Get the count of the number of resources being updated
-      TF_PLAN_TO_BE_UPDATED=$(echo "$TF_PLAN_FILE" | jq -r ".resource_changes[].change.actions[]" | grep "update" | wc -l | sed 's/^[[:space:]]*//g')
-
-      # Get the count of the number of resources being deleted
-      TF_PLAN_TO_BE_DELETED=$(echo "$TF_PLAN_FILE" | jq -r ".resource_changes[].change.actions[]" | grep "delete" | wc -l | sed 's/^[[:space:]]*//g')
-
-      echo "##vso[task.setvariable variable=TF_PLAN_COMMENT_PR_TO_BE_CREATED]$TF_PLAN_TO_BE_CREATED"
-      echo "##vso[task.setvariable variable=TF_PLAN_COMMENT_PR_TO_BE_UPDATED]$TF_PLAN_TO_BE_UPDATED"
-      echo "##vso[task.setvariable variable=TF_PLAN_COMMENT_PR_TO_BE_DELETED]$TF_PLAN_TO_BE_DELETED"
-
-      echo "##vso[task.setvariable variable=TF_PLAN_COMMENT_PR_FILE]$TF_PLAN_FILE"
-      echo "##vso[task.setvariable variable=TF_PLAN_COMMENT_PR_FILE_TXT]$TF_PLAN_FILE_TXT"
+      jq -Rs . < terraform.plan.txt > terraform.plan.json
+      TF_PLAN_COMMENT=$(cat terraform.plan.json)
+      echo "##vso[task.setvariable variable=TF_PLAN_COMMENT_PR]$TF_PLAN_COMMENT"
     name: GetTerraformPlan
     displayName: "Get Terraform Plan"
     workingDirectory: ${{ parameters.terraformPath }}
