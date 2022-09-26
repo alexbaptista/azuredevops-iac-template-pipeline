@@ -13,7 +13,7 @@ steps:
 
       for line in $FILE_TXT
       do
-        TF_PLAN_FILE_TXT+=$(echo "$line<br/>")
+        TF_PLAN_FILE_TXT+=$(echo "$line\")
       done
 
       terraform show -json $TF_PLAN_FILE > terraform.plan.json
