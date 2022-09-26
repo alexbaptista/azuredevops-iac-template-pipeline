@@ -7,15 +7,21 @@ steps:
   - bash: |
       terraform show -no-color $TF_PLAN_FILE > terraform.plan.txt
 
-      TF_PLAN_FILE_TXT_TMP=$(cat <<END
-      $(cat terraform.plan.txt)
-      END
-      )
+      FILE_TXT=$(cat terraform.plan.txt)
+      while read -r $FILE_TXT;
+      do
+        TF_PLAN_FILE_TXT_TMP+=$FILE_TXT"\n"
+      done
+
+      # TF_PLAN_FILE_TXT_TMP=$(cat <<END
+      # $(cat terraform.plan.txt)
+      # END
+      # )
 
       TF_PLAN_FILE_TXT=$(echo -e $TF_PLAN_FILE_TXT_TMP)
 
       terraform show -json $TF_PLAN_FILE > terraform.plan.json
-      
+
       We need to strip the single quotes that are wrapping it so we can parse it with JQ
       TF_PLAN_FILE=$(cat terraform.plan.json | sed "s/^'//g" | sed "s/'$//g")
 
