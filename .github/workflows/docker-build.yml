@@ -27,19 +27,19 @@ jobs:
         uses: actions/checkout@v3
       
       - name: Log in to Docker Hub
-        uses: docker/login-action@v3.1.1
+        uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_HUB_REGISTRY_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_REGISTRY_PASSWORD }}
       
       - name: Extract metadata (tags, labels) for Docker
         id: meta
-        uses: docker/metadata-action@v4.0.1
+        uses: docker/metadata-action@v2
         with:
           images: ${{ env.DOCKERFILE_REPO }}
       
       - name: Build and push Docker image
-        uses: docker/build-push-action@v3.1.1
+        uses: docker/build-push-action@v3
         with:
           context: . -f ${{ env.DOCKERFILE_PATH }}
           push: true
