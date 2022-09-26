@@ -57,3 +57,4 @@ jobs:
       - template: ../pipeline-tasks/github-pullrequest-comment.yaml
         parameters:
           githubToken: ${{ parameters.githubToken }}
+          terraformPath: ${{ parameters.terraformPath }}     
