@@ -1,5 +1,5 @@
 parameters:
-  - name: githubConnection
+  - name: githubToken
     type: string
     default: false
 
