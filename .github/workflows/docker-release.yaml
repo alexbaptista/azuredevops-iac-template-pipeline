@@ -10,9 +10,8 @@
 name: Publish Docker image
 
 on:
-  push:
-    branches:
-      - feature/docker-hub
+  release:
+    types: [published]
 
 env:
   DOCKERFILE_PATH: ./container-image/Dockerfile
