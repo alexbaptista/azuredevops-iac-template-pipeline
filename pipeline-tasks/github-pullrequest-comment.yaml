@@ -36,6 +36,4 @@ steps:
 
         File (TXT):
 
-        ```
         $(TF_PLAN_COMMENT_PR_FILE_TXT)
-        ```
