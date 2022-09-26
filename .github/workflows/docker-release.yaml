@@ -14,7 +14,7 @@ on:
     types: [published]
 
 env:
-  DOCKERFILE_PATH: ./container-image/Dockerfile
+  DOCKERFILE_PATH: ./container-image
   DOCKERFILE_REPO: alxbap/azuredevops-iac-template-pipeline
 
 jobs:
@@ -40,7 +40,8 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
         with:
-          context: . -f ${{ env.DOCKERFILE_PATH }}
+          context: ${{ env.DOCKERFILE_PATH }}/
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          dockerfile: ${{ env.DOCKERFILE_PATH }}/Dockerfile
