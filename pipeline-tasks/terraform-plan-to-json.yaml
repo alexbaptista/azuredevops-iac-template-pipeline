@@ -9,6 +9,8 @@ steps:
 
       FILE_TXT=$(cat terraform.txt)
 
+      wc -l terraform.txt
+
       for line in $FILE_TXT
       do
         TF_PLAN_FILE_TXT+=$(echo "$line<br/>")
