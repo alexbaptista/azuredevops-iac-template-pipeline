@@ -28,6 +28,7 @@ jobs:
       runOnce:
         deploy:
           steps:
+            - checkout: self
             - template: ../pipeline-tasks/tfenv-terraform-install.yaml
               parameters:
                 terraformVersion: ${{ parameters.terraformVersion }}
