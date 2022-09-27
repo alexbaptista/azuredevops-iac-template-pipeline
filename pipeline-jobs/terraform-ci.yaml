@@ -17,11 +17,27 @@ parameters:
   - name: environmentDeploy
     type: string
     default: false
+  - name: variableGroup
+    type: string
+    default: false
 
 jobs:
   - job: "TerraformTestsAndBuild"
     displayName: "Terraform Tests & Build"
+    variables:
+      - group: ${{ parameters.variableGroup }}
     container: ${{ parameters.resourceContainer }}
+      env:
+        TF_STATE_BLOB_ACCOUNT_NAME: $(terraformStateBlobAccountName)
+        TF_STATE_BLOB_CONTAINER_NAME: $(terraformStateBlobContainerName)
+        TF_STATE_BLOB_FILE: $(terraformStateBlobFile)
+        ARM_SUBSCRIPTION_ID: $(terraformArmSubscriptionId)
+        ARM_CLIENT_ID: $(terraformArmClientId)
+        ARM_CLIENT_SECRET: $(terraformArmClientSecret)
+        ARM_TENANT_ID: $(terraformArmTenantId)
+        TF_IN_AUTOMATION: 1
+        TF_LOG: trace
+        TF_LOG_PATH: terraform.log
     steps:
       - template: ../pipeline-tasks/tfenv-terraform-install.yaml
         parameters:
@@ -55,7 +71,20 @@ jobs:
           terraformPlanFile: ${{ parameters.terraformPlanFile }}
   - deployment: "TerraformDeploy"
     displayName: "Terraform Deploy"
+    variables:
+      - group: ${{ parameters.variableGroup }}
     container: ${{ parameters.resourceContainer }}
+      env:
+        TF_STATE_BLOB_ACCOUNT_NAME: $(terraformStateBlobAccountName)
+        TF_STATE_BLOB_CONTAINER_NAME: $(terraformStateBlobContainerName)
+        TF_STATE_BLOB_FILE: $(terraformStateBlobFile)
+        ARM_SUBSCRIPTION_ID: $(terraformArmSubscriptionId)
+        ARM_CLIENT_ID: $(terraformArmClientId)
+        ARM_CLIENT_SECRET: $(terraformArmClientSecret)
+        ARM_TENANT_ID: $(terraformArmTenantId)
+        TF_IN_AUTOMATION: 1
+        TF_LOG: trace
+        TF_LOG_PATH: terraform.log
     dependsOn: "TerraformTestsAndBuild"
     environment: ${{ parameters.environmentDeploy }}
     timeoutInMinutes: 10

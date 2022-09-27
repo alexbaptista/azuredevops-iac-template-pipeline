@@ -11,6 +11,9 @@ parameters:
   - name: envConfig
     type: object
     default: false
+  - name: variableGroup
+    type: string
+    default: false
   - name: terraformConfig
     type: object
     default:
@@ -40,6 +43,7 @@ stages:
           terraformVersion: ${{ parameters.terraformVersion }}
           terraformPath: ${{ parameters.terraformPath }}
           environmentDeploy: ${{ parameters.envConfig['DEV'].environmentDeploy }}
+          variableGroup: ${{ parameters.variableGroup }}
           resourceContainer: ${{ parameters.resourceContainer }}
 - ${{ if eq(variables['Build.SourceBranch'], parameters.envConfig['QA'].gitBranch) }}:
   - stage: QA
@@ -53,6 +57,7 @@ stages:
           terraformVersion: ${{ parameters.terraformVersion }}
           terraformPath: ${{ parameters.terraformPath }}
           environmentDeploy: ${{ parameters.envConfig['QA'].environmentDeploy }}
+          variableGroup: ${{ parameters.variableGroup }}
           resourceContainer: ${{ parameters.resourceContainer }}
 - ${{ if eq(variables['Build.SourceBranch'], parameters.envConfig['UAT'].gitBranch) }}:
   - stage: UAT
@@ -66,6 +71,7 @@ stages:
           terraformVersion: ${{ parameters.terraformVersion }}
           terraformPath: ${{ parameters.terraformPath }}
           environmentDeploy: ${{ parameters.envConfig['UAT'].environmentDeploy }}
+          variableGroup: ${{ parameters.variableGroup }}
           resourceContainer: ${{ parameters.resourceContainer }}
 - ${{ if eq(variables['Build.SourceBranch'], parameters.envConfig['PRD'].gitBranch) }}:
   - stage: PRD
@@ -79,6 +85,7 @@ stages:
           terraformVersion: ${{ parameters.terraformVersion }}
           terraformPath: ${{ parameters.terraformPath }}
           environmentDeploy: ${{ parameters.envConfig['PRD'].environmentDeploy }}
+          variableGroup: ${{ parameters.variableGroup }}
           resourceContainer: ${{ parameters.resourceContainer }}
 - ${{ elseif eq(variables['Build.Reason'], 'PullRequest') }}:
   - stage: PR
@@ -90,5 +97,5 @@ stages:
           terraformConfig: ${{ parameters.terraformConfig }}
           terraformVersion: ${{ parameters.terraformVersion }}
           terraformPath: ${{ parameters.terraformPath }}
+          variableGroup: ${{ parameters.variableGroup }}
           resourceContainer: ${{ parameters.resourceContainer }}
-          githubToken: ${{ parameters.envConfig['PR'].githubToken }}

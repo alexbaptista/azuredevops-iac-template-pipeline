@@ -1,7 +1,4 @@
 parameters:
-  - name: githubToken
-    type: string
-    default: false
   - name: terraformPath
     type: string
     default: false
@@ -13,8 +10,6 @@ steps:
           -H "Authorization: Bearer $GITHUB_TOKEN" \
           https://api.github.com/repos/$(Build.Repository.Name)/issues/$(System.PullRequest.PullRequestNumber)/comments \
           -d @github.pr.json
-      env:
-        GITHUB_TOKEN: ${{ parameters.githubToken }}
       name: GitHubPRComment
       displayName: "GitHub PR Comment"
       workingDirectory: ${{ parameters.terraformPath }}

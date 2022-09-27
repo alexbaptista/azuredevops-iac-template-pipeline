@@ -35,22 +35,23 @@ resources:
     - container: terraform
       image: docker.io/alxbap/azuredevops-iac-template-pipeline:v.1.2
 
-extends:
-  template: template.yaml
-  parameters:
-    envConfig:
-      DEV:
-        gitBranch: refs/heads/dev
-        variablesGroup: azuredevops-iac-template-pipeline
-      QA:
-        gitBranch: refs/heads/qa
-        variablesGroup: azuredevops-iac-template-pipeline
-      UAT:
-        gitBranch: refs/heads/uat
-        variablesGroup: azuredevops-iac-template-pipeline
-      PRD:
-        gitBranch: refs/heads/main
-        variablesGroup: azuredevops-iac-template-pipeline
-      Terraform:
-        terraformVersion: 1.2.9
-        terraformPath: $(System.DefaultWorkingDirectory)/example-iac
+stages:
+  - template: pipeline/terraform.yaml
+    parameters:
+      terraformPath: $(System.DefaultWorkingDirectory)/example-iac
+      terraformVersion: 1.2.7
+      resourceContainer: terraform
+      variableGroup: azuredevops-iac-template-pipeline
+      envConfig:
+        DEV:
+          environmentDeploy: dev
+          gitBranch: refs/heads/dev
+        QA:
+          environmentDeploy: qa
+          gitBranch: refs/heads/qa
+        UAT:
+          environmentDeploy: uat
+          gitBranch: refs/heads/uat
+        PRD:
+          environmentDeploy: prd
+          gitBranch: refs/heads/main

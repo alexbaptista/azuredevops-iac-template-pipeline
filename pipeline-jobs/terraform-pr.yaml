@@ -14,14 +14,28 @@ parameters:
   - name: resourceContainer
     type: string
     default: false
-  - name: githubToken
+  - name: variableGroup
     type: string
     default: false
 
 jobs:
   - job: "TerraformPullRequest"
     displayName: "Terraform Pull Request"
+    variables:
+      - group: ${{ parameters.variableGroup }}
     container: ${{ parameters.resourceContainer }}
+      env:
+        TF_STATE_BLOB_ACCOUNT_NAME: $(terraformStateBlobAccountName)
+        TF_STATE_BLOB_CONTAINER_NAME: $(terraformStateBlobContainerName)
+        TF_STATE_BLOB_FILE: $(terraformStateBlobFile)
+        ARM_SUBSCRIPTION_ID: $(terraformArmSubscriptionId)
+        ARM_CLIENT_ID: $(terraformArmClientId)
+        ARM_CLIENT_SECRET: $(terraformArmClientSecret)
+        ARM_TENANT_ID: $(terraformArmTenantId)
+        GITHUB_TOKEN: $(githubToken)
+        TF_IN_AUTOMATION: 1
+        TF_LOG: trace
+        TF_LOG_PATH: terraform.log
     steps:
       - template: "../pipeline-tasks/pullrequest-env.yaml"
         parameters:
@@ -56,5 +70,4 @@ jobs:
           terraformPath: ${{ parameters.terraformPath }}     
       - template: ../pipeline-tasks/github-pullrequest-comment.yaml
         parameters:
-          githubToken: ${{ parameters.githubToken }}
           terraformPath: ${{ parameters.terraformPath }}     
