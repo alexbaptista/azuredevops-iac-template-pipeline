@@ -1,0 +1,78 @@
+parameters:
+- name: envConfig
+  type: object
+  default: false
+
+name: $(Date:yyyyMMdd)$(Rev:.r)
+trigger:
+  branches:
+    include:
+      - refs/heads/dev
+      - refs/heads/qa
+      - refs/heads/uat
+      - refs/heads/main
+  paths:
+    exclude:
+    - README.md
+
+pr:
+  branches:
+    include:
+      - refs/heads/dev
+      - refs/heads/qa
+      - refs/heads/uat
+      - refs/heads/main
+  paths:
+    exclude:
+    - README.md
+
+variables:
+  - group: azuredevops-iac-template-pipeline
+
+pool:
+  name: Default
+  vmImage: hosted-azure
+
+# resources:
+#   repositories:
+#     - repository: devopsRepo
+#       type: github
+#       endpoint: github.com_alexbaptista # CHANGE HERE AFTER FORK REPO
+#       name: alexbaptista/azuredevops-iac-template-pipeline # CHANGE HERE AFTER FORK REPO
+#   containers:
+#     - container: terraform
+#       image: docker.io/alxbap/azuredevops-iac-template-pipeline:v.1.2
+#       # endpoint: docker_alxbap
+#       env:
+#         TF_STATE_BLOB_ACCOUNT_NAME: $(terraformStateBlobAccountName)
+#         TF_STATE_BLOB_CONTAINER_NAME: $(terraformStateBlobContainerName)
+#         TF_STATE_BLOB_FILE: terraform.tfstate
+#         ARM_SUBSCRIPTION_ID: $(terraformArmSubscriptionId)
+#         ARM_CLIENT_ID: $(terraformArmClientId)
+#         ARM_CLIENT_SECRET: $(terraformArmClientSecret)
+#         ARM_TENANT_ID: $(terraformArmTenantId)
+#         TF_IN_AUTOMATION: 1
+#         TF_LOG: trace
+#         TF_LOG_PATH: terraform.log
+
+stages:
+  - template: pipeline/terraform.yaml
+    parameters:
+      terraformPath: $(System.DefaultWorkingDirectory)/example-iac
+      terraformVersion: 1.2.7
+      resourceContainer: terraform
+      envConfig:
+        DEV:
+          environmentDeploy: $(environmentDeployDEV)
+          gitBranch: refs/heads/dev
+        QA:
+          environmentDeploy: $(environmentDeployQA)
+          gitBranch: refs/heads/qa
+        UAT:
+          environmentDeploy: $(environmentDeployUAT)
+          gitBranch: refs/heads/uat
+        PRD:
+          environmentDeploy: $(environmentDeployPRD)
+          gitBranch: refs/heads/main
+        PR:
+          githubToken: $(githubToken)
