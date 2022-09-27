@@ -2,6 +2,8 @@
 
 Proof of Concept for Azure DevOps for Infrastructure as Code
 
+<br /><img src="README_content/azure-pipeline.png" width="100">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="README_content/tf.png" width="100"><br />
+
 My motivation here is, to explore some features from Azure DevOps, with minimal dependency from Marketplace Tasks, to understand how much Azure DevOps is customizable :);
 
 This pipeline is to be used for `IaC (Infrastructure as code)`, adopting [Terraform](https://www.terraform.io/) and using **Microsoft Azure** as Cloud Provider;
@@ -35,8 +37,8 @@ environment.
 | Pull Request Comment | `Github PR` | | | :white_check_mark: |
 | Pull Request env | `export ENV` | | | :white_check_mark: |
 
-:information_source: **note**
-
+> :information_source: **note**
+>
 > This step has a specilized task `pullrequest-env.yaml` wich determine what will be the target environment to run `terraform plan` based on source and target branch:
 > 
 > eg. If there's a Pull Request opened with this caracteristics
@@ -140,7 +142,9 @@ environment.
 
 <img src="README_content/azure-vg.png" width="600">
 
-
+> :warning: **note**
+> 
+> Don't forget to click on `"lock icon"` to keep sensitive values as secret
 
 ### **Azure Pipeline Files**
 
