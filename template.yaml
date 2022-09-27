@@ -29,7 +29,7 @@ variables:
 #         TF_LOG: trace
 #         TF_LOG_PATH: terraform.log
 
-stages:
+extends:
   - template: pipeline/terraform.yaml
     parameters:
       terraformPath: $(System.DefaultWorkingDirectory)/example-iac
