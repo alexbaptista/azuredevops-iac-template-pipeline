@@ -49,9 +49,6 @@ environment.
 ### **Folder structure**
 
 ```
-.
-├── LICENSE
-├── README.md
 ├── azure-pipelines.yaml
 ├── container-image
 │   └── Dockerfile
@@ -114,22 +111,147 @@ environment.
   * Configure a [Github Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) with `repo:` permission (to allow write comments on Pull Requests );
 
 * **Docker image**
-  * It's necessary to build de Docker image [Dockerfile](container-image/Dockerfile), Azure Container Registry is recommenden********
+  * It's necessary to build de Docker image [Dockerfile](container-image/Dockerfile) 
+
+    (If you wish to keep and maintain the image private)
+
+    But is possible to use the public image, available on link below:
+    https://hub.docker.com/r/alxbap/azuredevops-iac-template-pipeline
 
 ## How to use
 
-* Complete requirements above;******
+### **Azure Variable Group**
 
-## motivations
+* Complete requirements above;
+* During creation of the **Variable Group Name** is required the variables below to compose resource:
 
-* Don't use tasks
-** easier todo maintenance
-* Don't use release flow
-* Why do not use Atlantis
-* Checkov was an alternative
-* Why didn't adopted release steps
-* Why don't run build inside host 
+| Environment | Purpose |
+| --- | :-: |
+| `githubToken` | Github |
+| `terraformArmClientId` | Azure credentials |
+| `terraformArmClientSecret` | Azure credentials |
+| `terraformArmSubscriptionId` | Azure credentials |
+| `terraformArmTenantId` | Azure credentials |
+| `terraformStateBlobAccountName` | Terraform Backend |
+| `terraformStateBlobContainerName` | Terraform Backend |
+| `terraformStateBlobFile` | Terraform Backend |
+
+* **example**
+
+<img src="README_content/azure-vg.png" width="600">
+
+
+
+### **Azure Pipeline Files**
+
+File example can be accessed here [Azure Pipelines](example-azure-pipelines.yaml)
+
+```YAML
+name: $(Date:yyyyMMdd)$(Rev:.r)
+
+pool:
+  name: Default
+  vmImage: hosted-azure
+
+variables:
+  - group: #### CONFIGURE_AZURE_DEVOPS_VARIABLE_GROUP ####
+
+resources:
+  repositories:
+    - repository: Iac-template
+      type: github
+      endpoint: github.com_alexbaptista
+      name: alexbaptista/azuredevops-iac-template-pipeline
+      ref: refs/tags/v.1.3
+  containers:
+    - container: terraform
+      image: docker.io/alxbap/azuredevops-iac-template-pipeline:v.1.3
+      env:
+        TF_STATE_BLOB_ACCOUNT_NAME:   #### CONFIGURE_STATE_BLOB_FOR_TERRAFORM_BACKEND ####
+        TF_STATE_BLOB_CONTAINER_NAME: #### CONFIGURE_STATE_BLOB_FOR_TERRAFORM_BACKEND ####
+        TF_STATE_BLOB_FILE:           #### CONFIGURE_STATE_BLOB_FOR_TERRAFORM_BACKEND ####
+        ARM_SUBSCRIPTION_ID:          #### CONFIGURE_SERVICE_ACCOUNT_FOR_AZURE_CREDENTIALS ####
+        ARM_CLIENT_ID:                #### CONFIGURE_SERVICE_ACCOUNT_FOR_AZURE_CREDENTIALS ####
+        ARM_CLIENT_SECRET:            #### CONFIGURE_SERVICE_ACCOUNT_FOR_AZURE_CREDENTIALS ####
+        ARM_TENANT_ID:                #### CONFIGURE_SERVICE_ACCOUNT_FOR_AZURE_CREDENTIALS ####
+        TF_IN_AUTOMATION: 1
+        TF_LOG: trace
+        TF_LOG_PATH: terraform.log
+
+trigger:
+  branches:
+    include:
+      - #### CONFIGURE_BRANCHS_FOR_ALL_ENVIRONMENTS ####
+  paths:
+    exclude:
+    - README.md
+
+pr:
+  branches:
+    include:
+      - #### CONFIGURE_BRANCHS_FOR_ALL_ENVIRONMENTS ####
+  paths:
+    exclude:
+    - README.md
+
+stages:
+  - template: pipeline/terraform.yaml@Iac-template
+    parameters:
+      terraformPath: $(System.DefaultWorkingDirectory)/* #### CONFIGURE_DIRECTORY_TO_REACH_TERRAFORM_FILES ####
+      terraformVersion: 1.2.7                            #### CONFIGURE_TERRAFORM_VERSION ####
+      resourceContainer: terraform
+      envConfig:
+        DEV:
+          environmentDeploy: dev          #### CONFIGURE_AZURE_DEVOPS_ENVIRONMENT_TO_DEPLOY ####
+          gitBranch: refs/heads/(example) #### CONFIGURE_GIT_BRANCH_TO_REFER_ENVIRONMENT ####
+        QA:
+          environmentDeploy: qa           #### CONFIGURE_AZURE_DEVOPS_ENVIRONMENT_TO_DEPLOY ####
+          gitBranch: refs/heads/(example) #### CONFIGURE_GIT_BRANCH_TO_REFER_ENVIRONMENT ####
+        UAT:
+          environmentDeploy: uat          #### CONFIGURE_AZURE_DEVOPS_ENVIRONMENT_TO_DEPLOY ####
+          gitBranch: refs/heads/(example) #### CONFIGURE_GIT_BRANCH_TO_REFER_ENVIRONMENT ####
+        PRD:
+          environmentDeploy: prd          #### CONFIGURE_AZURE_DEVOPS_ENVIRONMENT_TO_DEPLOY ####
+          gitBranch: refs/heads/(example) #### CONFIGURE_GIT_BRANCH_TO_REFER_ENVIRONMENT ####
+        PR:
+          githubToken: $(githubToken)     #### CONFIGURE_GITHUB_TOKEN ####
+```
+
+## Screenshots
+
+### **Pipeline (Azure DevOps)**
+
+<img src="README_content/azure-cicd.png" width="600">
+
+### **Environment (Azure DevOps)**
+
+<img src="README_content/azure-envs.png" width="600">
+
+### **Pull request (Github)**
+  
+<img src="README_content/git-pr.png" width="600">
+
+## Motivations (And answers)
+
+**Why I haven't adopted tasks ?**
+  
+> According this article (wrote by a Microsoft's Enginner, be adviced that is an Author vision, not represent the company's vision), there's an alternative way to management pipeline `without dependency from TASKS`, and keeping easier the lifecycle:
+>
+> https://julie.io/writing/terraform-on-azure-pipelines-best-practices#tip-4---authenticate-with-service-principal-credentials-stored-in-azure-key-vault
+
+**Why I didn't applied "release" feature from Azure DevOps ?**
+
+> This is a Great feature that provides a mechanism `to promote artifacts between stages`, but in this case, when we're handling with Terraform files (like terraform plan files) `isn't handleable` like a software package (like NodeJS, Java e etc), and is required to generate "the plan" for each environment, and the we got a high risk that this artifact to turn stale, because there's other conditions (like manual action in Cloud) that impact the Terraform Plan. And the Terraform is near to GitOps Philosophy and in my vision is better to use `Git as source of truth` and generate plan and apply in runtime execution and to use the environment feature from Azure DevOps with the "Approve stage" turn on.
+  
+**Why do not use Atlantis ?**
+  
+> Is a great resource, but is necessary to deploy and keep available, i consider adopt soon, but for now, i developed a `"rustic"` task only to report the Terraform Plan onto GitHub Pull Request.
+  
+**Why don't run build and installed dependencies inside host ?**
+  
+> I've been decided to use container inside `Host Agent`, because one from caracteristics from Azure DevOps, is isolated execution between stages, and i was determinated to go ahead with minimal dependency from Tasks (and some tools hasn't any Task ready from Marketplace), and i consider don't "dirty" the host with dependency, i strong believe that the host only should be used as a execution layer, the all dependencies i kept in container image, is more flexible to migrate and recover in disaster recovery.
 
 ## References
 
 * https://www.terraform-best-practices.com/
+* https://learn.microsoft.com/en-us/azure/devops/pipelines/yaml-schema/?view=azure-pipelines
