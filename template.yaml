@@ -2,13 +2,10 @@ parameters:
 - name: envConfig
   type: object
   default: false
-  
+
 variables:
   - group: azuredevops-iac-template-pipeline
 
-pool:
-  name: Default
-  vmImage: hosted-azure
 
 # resources:
 #   repositories:
