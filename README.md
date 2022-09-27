@@ -10,51 +10,33 @@ This pipeline is to be used for `IaC (Infrastructure as code)`, adopting [Terraf
 
 Initially, was designed to simulate deploy in 4 environments like:
 
-* Development (DEV);
-* Quality Assurance (QA);
-* User Acceptante Tests (UAT);
-* Production (PRD);
+* Development (**DEV**);
+* Quality Assurance (**QA**);
+* User Acceptante Tests (**UAT**);
+* Production (**PRD**);
 
 And contains these stages for each process like Continuous Integration and Continuous Delivery
 environment.
 
-**Continuous Integration**: This flow execute these steps:
+**Continuous Integration/Delivery and Pull Request Steps**
 
-* Install (TFENV);
-* Format (Terraform);
-* Init (Terraform);
-* Workspace (Terraform);
-* Validate (Terraform);
-* Lint (TFLint);
-* SAST (TFSec);
-* Plan (Terraform);
-* Apply (Terraform);
-* Cache (Azure Tasks);
-  
-**Continuous Delivery**: This flow execute these steps:
+| Tool | Action | Continuous Integration | Continuous Delivery | Pull Request |
+| --- | --- | :-: | :-: | :-: |
+| TFENV  | `Install` | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| Terraform | `Format` | :white_check_mark: | | :white_check_mark: |
+| Terraform | `Init` | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| Terraform | `Workspace` | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| Terraform | `Validate` | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| TFLint | `Lint` | :white_check_mark: | | :white_check_mark: |
+| TFSec | `SAST` | :white_check_mark: | | :white_check_mark: |
+| Terraform | `Plan` | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| Terraform | `Apply` | :white_check_mark: | :white_check_mark: | |
+| Azure Tasks | `Cache` | :white_check_mark: | :white_check_mark: | |
+| Pull Request Comment | `Github PR` | | | :white_check_mark: |
+| Pull Request env | `export ENV` | | | :white_check_mark: |
 
-* Install (TFENV);
-* Init (Terraform);
-* Workspace (Terraform);
-* Validate (Terraform);
-* Plan (Terraform);
-* Apply (Terraform);
-  
-**Pull Request**: This flow execute these steps:
+:information_source: **note**
 
-* Pull Request ENV (more information below)
-* Install (TFENV);
-* Init (Terraform);
-* Workspace (Terraform);
-* Validate (Terraform);
-* Lint (TFLint);
-* SAST (TFSec);
-* Plan (Terraform);
-* Apply (Terraform);
-* Pull Request Comment (Github)
-
-> :information_source: **note**
-> 
 > This step has a specilized task `pullrequest-env.yaml` wich determine what will be the target environment to run `terraform plan` based on source and target branch:
 > 
 > eg. If there's a Pull Request opened with this caracteristics
@@ -108,29 +90,30 @@ environment.
 
 ## What provide
 
-* [TFENV](https://github.com/tfutils/tfenv) - Its a easier Terraform version management;
-* TFLINT
-* TFSEC
-* Terraform
-  * Workspace
-  * validate
-  * fmt
+* **Terraform**
+  * [Workspace](https://www.terraform.io/language/state/workspaces) Each Terraform configuration has an associated backend that defines how Terraform executes operations and where Terraform stores persistent data, like state;
+  * [validate](https://www.terraform.io/cli/commands/validate) The command validates the configuration files in a directory;
+  * [fmt](https://www.terraform.io/cli/commands/fmt) used to rewrite Terraform configuration files to a canonical format and style;
+* **Add-ons**
+  * [TFENV](https://github.com/tfutils/tfenv) - Its a easier Terraform version management;
+  * [TFLINT](https://github.com/terraform-linters/tflint) - A Pluggable Terraform Linter;
+  * [TFSEC](https://github.com/aquasecurity/tfsec) - tfsec uses static analysis of your terraform code to spot potential misconfigurations;
 
 ## Requirements
 
-* Azure (Cloud Computing)
+* **Azure (Cloud Computing)**
   * Active [Subscription](https://learn.microsoft.com/pt-br/azure/azure-portal/get-subscription-tenant-id)
   * Configure a [Service Principal with a Client Secret](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/service_principal_client_secret);
   
-* Azure DevOps
+* **Azure DevOps**
   * Configure a [Variable Group Name](https://learn.microsoft.com/en-us/azure/devops/pipelines/scripts/cli/pipeline-variable-group-secret-nonsecret-variables?view=azure-devops)
   * Configure a [Blob Storage for Terraform Backend](https://learn.microsoft.com/en-us/azure/developer/terraform/store-state-in-azure-storage?tabs=azure-cli);
   * Configure [Environment Deploy](https://learn.microsoft.com/en-us/azure/devops/pipelines/process/environments?view=azure-devops) with these names **"DEV, QA, UAT and PRD"**;
 
-* Github
+* **Github**
   * Configure a [Github Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) with `repo:` permission (to allow write comments on Pull Requests );
 
-* Docker image
+* **Docker image**
   * It's necessary to build de Docker image [Dockerfile](container-image/Dockerfile), Azure Container Registry is recommenden********
 
 ## How to use
