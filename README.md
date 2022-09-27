@@ -2,7 +2,7 @@
 
 Proof of Concept for Azure DevOps for Infrastructure as Code
 
-<br /><img src="README_content/azure-pipeline.png" width="100">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="README_content/tf.png" width="100"><br />
+<br /><img src="README_content/azure-pipeline.png" width="100">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="README_content/terraform.png" width="100"><br />
 
 My motivation here is, to explore some features from Azure DevOps, with minimal dependency from Marketplace Tasks, to understand how much Azure DevOps is customizable :);
 
