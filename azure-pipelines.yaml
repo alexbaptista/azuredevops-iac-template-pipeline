@@ -20,10 +20,14 @@ pr:
   paths:
     exclude:
     - README.md
+    
+pool:
+  name: Default # CHANGE HERE AFTER FORK REPO
+  vmImage: hosted-azure # CHANGE HERE AFTER FORK REPO
 
 resources:
   repositories:
-    - repository: devopsRepo
+    - repository: devopsRepo # CHANGE HERE AFTER FORK REPO
       type: github
       endpoint: github.com_alexbaptista # CHANGE HERE AFTER FORK REPO
       name: alexbaptista/azuredevops-iac-template-pipeline # CHANGE HERE AFTER FORK REPO
