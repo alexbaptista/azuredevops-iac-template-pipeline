@@ -2,30 +2,7 @@ parameters:
 - name: envConfig
   type: object
   default: false
-
-name: $(Date:yyyyMMdd)$(Rev:.r)
-trigger:
-  branches:
-    include:
-      - refs/heads/dev
-      - refs/heads/qa
-      - refs/heads/uat
-      - refs/heads/main
-  paths:
-    exclude:
-    - README.md
-
-pr:
-  branches:
-    include:
-      - refs/heads/dev
-      - refs/heads/qa
-      - refs/heads/uat
-      - refs/heads/main
-  paths:
-    exclude:
-    - README.md
-
+  
 variables:
   - group: azuredevops-iac-template-pipeline
 
