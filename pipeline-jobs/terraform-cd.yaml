@@ -23,7 +23,7 @@ jobs:
     displayName: "Terraform Deploy"
     container: ${{ parameters.resourceContainer }}
     environment: ${{ parameters.environmentDeploy }}
-    timeoutInMinutes: 10
+    timeoutInMinutes: 60
     strategy:
       runOnce:
         deploy:
