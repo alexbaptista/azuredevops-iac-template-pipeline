@@ -14,7 +14,7 @@ Initially, was designed to simulate deploy in 4 environments like:
 
 * Development (**DEV**);
 * Quality Assurance (**QA**);
-* User Acceptante Tests (**UAT**);
+* User Acceptance Tests (**UAT**);
 * Production (**PRD**);
 
 And contains these stages for each process like Continuous Integration and Continuous Delivery
@@ -39,9 +39,9 @@ environment.
 
 > :information_source: **note**
 >
-> This step has a specilized task `pullrequest-env.yaml` wich determine what will be the target environment to run `terraform plan` based on source and target branch:
+> This step has a specialized task `pullrequest-env.yaml` which determine what will be the target environment to run `terraform plan` based on source and target branch:
 > 
-> eg. If there's a Pull Request opened with this caracteristics
+> eg. If there's a Pull Request opened with this characteristics:
 > 
 >   **source branch**: "refs/heads/dev"
 >   **target branch**: "refs/heads/qa"
@@ -95,7 +95,7 @@ environment.
   * [fmt](https://www.terraform.io/cli/commands/fmt) used to rewrite Terraform configuration files to a canonical format and style;
 * **Add-ons**
   * [TFENV](https://github.com/tfutils/tfenv) - Its a easier Terraform version management;
-  * [TFLINT](https://github.com/terraform-linters/tflint) - A Pluggable Terraform Linter;
+  * [TFLINT](https://github.com/terraform-linters/tflint) - A Terraform Linter;
   * [TFSEC](https://github.com/aquasecurity/tfsec) - tfsec uses static analysis of your terraform code to spot potential misconfigurations;
 
 ## Requirements
@@ -185,7 +185,7 @@ resources:
 trigger:
   branches:
     include:
-      - #### CONFIGURE_BRANCHS_FOR_ALL_ENVIRONMENTS ####
+      - #### CONFIGURE_BRANCH_FOR_ALL_ENVIRONMENTS ####
   paths:
     exclude:
     - README.md
@@ -193,7 +193,7 @@ trigger:
 pr:
   branches:
     include:
-      - #### CONFIGURE_BRANCHS_FOR_ALL_ENVIRONMENTS ####
+      - #### CONFIGURE_BRANCH_FOR_ALL_ENVIRONMENTS ####
   paths:
     exclude:
     - README.md
@@ -239,13 +239,13 @@ stages:
 
 **Why I haven't adopted tasks ?**
   
-> According this article (wrote by a Microsoft's Enginner, be adviced that is an Author vision, not represent the company's vision), there's an alternative way to management pipeline `without dependency from TASKS`, and keeping easier the lifecycle:
+> According this article (wrote by a Microsoft's Engineer, be advised that is an Author vision, not represent the company's vision), there's an alternative way to management pipeline `without dependency from TASKS`, and keeping easier the lifecycle:
 >
 > https://julie.io/writing/terraform-on-azure-pipelines-best-practices#tip-4---authenticate-with-service-principal-credentials-stored-in-azure-key-vault
 
 **Why I didn't applied "release" feature from Azure DevOps ?**
 
-> This is a Great feature that provides a mechanism `to promote artifacts between stages`, but in this case, when we're handling with Terraform files (like terraform plan files) `isn't handleable` like a software package (like NodeJS, Java e etc), and is required to generate "the plan" for each environment, and the we got a high risk that this artifact to turn stale, because there's other conditions (like manual action in Cloud) that impact the Terraform Plan. And the Terraform is near to GitOps Philosophy and in my vision is better to use `Git as source of truth` and generate plan and apply in runtime execution and to use the environment feature from Azure DevOps with the "Approve stage" turn on.
+> This is a Great feature that provides a mechanism `to promote artifacts between stages`, but in this case, when we're handling with Terraform files (like terraform plan files) `isn't manipulable` like a software package (like NodeJS, Java e etc), and is required to generate "the plan" for each environment, and the we got a high risk that this artifact to turn stale, because there's other conditions (like manual action in Cloud) that impact the Terraform Plan. And the Terraform is near to GitOps Philosophy and in my vision is better to use `Git as source of truth` and generate plan and apply in runtime execution and to use the environment feature from Azure DevOps with the "Approve stage" turn on.
   
 **Why do not use Atlantis ?**
   
@@ -253,7 +253,7 @@ stages:
   
 **Why don't run build and installed dependencies inside host ?**
   
-> I've been decided to use container inside `Host Agent`, because one from caracteristics from Azure DevOps, is isolated execution between stages, and i was determinated to go ahead with minimal dependency from Tasks (and some tools hasn't any Task ready from Marketplace), and i consider don't "dirty" the host with dependency, i strong believe that the host only should be used as a execution layer, the all dependencies i kept in container image, is more flexible to migrate and recover in disaster recovery.
+> I've been decided to use container inside `Host Agent`, because one from characteristics from Azure DevOps, is isolated execution between stages, and i was determinate to go ahead with minimal dependency from Tasks (and some tools hasn't any Task ready from Marketplace), and i consider don't "dirty" the host with dependency, i strong believe that the host only should be used as a execution layer, the all dependencies i kept in container image, is more flexible to migrate and recover in disaster recovery.
 
 ## References
 
